@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
-class JnsUserController extends Controller
+class JnsDivisionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/user';
+        $url=env('API_URL').'/api/jns/division';
         $response = $service->get($url);
 
-        return view('jns.user.index',['data'=>$response]);
+        return view('jns.division.index',['data'=>$response]);
     }
 
     /**
@@ -28,7 +29,10 @@ class JnsUserController extends Controller
      */
     public function create()
     {
-        return view('jns.user._form_new');
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/client';
+        $clients = $service->get($url);
+        return view('jns.division._form',compact('clients'));
     }
 
     /**
@@ -40,18 +44,14 @@ class JnsUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-                'username'=>'required|string',
-                'password'=>'required|confirmed|min:8',
-                'name'=>'required',
-                'email'=>'required',
+            'name'=>'required'
         ]);
 
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/user';
+        $url=env('API_URL').'/api/jns/division';
         $response = $service->post($url,$request);
-        dd($response);
 
-       // return redirect(route('jns.users.index'));
+        return redirect(route('jns.divisions.index'));
     }
 
     /**
@@ -62,7 +62,7 @@ class JnsUserController extends Controller
      */
     public function show($id)
     {
-        //
+        echo 'show';
     }
 
     /**
@@ -73,7 +73,13 @@ class JnsUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/client';
+        $clients = $service->get($url);
+
+        $divUrl = env('API_URL').'/api/jns/division/'.$id;
+        $div = $service->get($divUrl);
+        return view('jns.division._edit_form',compact('clients','div','id'));
     }
 
     /**
@@ -85,7 +91,15 @@ class JnsUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required'
+        ]);
+
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/division/'.$id;
+        $response = $service->put($url,$request);
+
+        return redirect(route('jns.divisions.index'));
     }
 
     /**
@@ -96,6 +110,10 @@ class JnsUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/division/'.$id;
+        $response = $service->delete($url);
+
+        return redirect(route('jns.divisions.index'));
     }
 }

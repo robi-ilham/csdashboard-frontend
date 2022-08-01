@@ -10,7 +10,8 @@
     <title>{{ config('app.name', 'CS TOOLS') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/jquery.js') }}" ></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
     
     
 
@@ -47,8 +48,8 @@
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
             </svg> JNS</a>
           <ul class="nav-group-items">
-            <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"></span> Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"></span> Divisions</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('jns.users.index')}}"><span class="nav-icon"></span> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('jns.divisions.index')}}"><span class="nav-icon"></span> Divisions</a></li>
             <li class="nav-item"><a class="nav-link" href="base/cards.html"><span class="nav-icon"></span> Informations</a></li>
          
           </ul>
@@ -65,6 +66,17 @@
          
           </ul>
         </li>
+
+        <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+          <svg class="nav-icon">
+            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+          </svg> M2M</a>
+        <ul class="nav-group-items">
+          <li class="nav-item"><a class="nav-link" href="{{route('jns.https.index')}}"><span class="nav-icon"></span> HTTP Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('jns.smpps.index')}}"><span class="nav-icon"></span> SMPP Users</a></li>
+       
+        </ul>
+      </li>
         <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
           <svg class="nav-icon">
             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
@@ -135,3 +147,4 @@
     <script src="{{ asset('vendors/simplebar/js/simplebar.min.js') }}"></script>
 
     <script src="{{ asset('vendors/@coreui/utils/js/coreui-utils.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
 
-class JnsUserController extends Controller
+class JnsM2mSmppController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +13,7 @@ class JnsUserController extends Controller
      */
     public function index()
     {
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/user';
-        $response = $service->get($url);
-
-        return view('jns.user.index',['data'=>$response]);
+        return view('jns.smpp.index');
     }
 
     /**
@@ -28,7 +23,7 @@ class JnsUserController extends Controller
      */
     public function create()
     {
-        return view('jns.user._form_new');
+        return view('jns.smpp._form');
     }
 
     /**
@@ -39,19 +34,7 @@ class JnsUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-                'username'=>'required|string',
-                'password'=>'required|confirmed|min:8',
-                'name'=>'required',
-                'email'=>'required',
-        ]);
-
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/user';
-        $response = $service->post($url,$request);
-        dd($response);
-
-       // return redirect(route('jns.users.index'));
+        //
     }
 
     /**

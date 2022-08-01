@@ -26,11 +26,12 @@ class AuthController extends Controller{
                     ->uncompromised(),
             ],
         ]);
-
-      $response=Http::accept('application/json')->post('http://cstoolsapi.belajaronline.id/api/login',[
+        $url=env('API_URL').'/api/login';
+      $response=Http::accept('application/json')->post($url,[
         'email'=>$request->email,
         'password'=>$request->password
       ]);
+
         if($response->successful()){
             session([
                 'token' => $response['token'],
