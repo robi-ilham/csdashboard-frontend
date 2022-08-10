@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
 
-class JnsM2mSmppController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,16 +15,10 @@ class JnsM2mSmppController extends Controller
     public function index()
     {
         $service = new ServiceRequest();
-        $clientsUrl=env('API_URL').'/api/jns/clients/all';
-        $clients = $service->get($clientsUrl);
-
-        $divisionUrl=env('API_URL').'/api/jns/divisions/all';
-        $divisions=$service->get($divisionUrl);
-
-        $url=env('API_URL').'/api/smpp/user';
+        $url=env('API_URL').'/api/user';
         $response = $service->get($url);
-
-        return view('smpp.index',compact('response','clients','divisions'));
+       /// dd($response);
+        return view('user.index',['data'=>$response]); 
     }
 
     /**
@@ -34,14 +28,7 @@ class JnsM2mSmppController extends Controller
      */
     public function create()
     {
-        $service = new ServiceRequest();
-        $clientsUrl=env('API_URL').'/api/jns/clients/all';
-        $clients = $service->get($clientsUrl);
-
-        $divisionUrl=env('API_URL').'/api/jns/divisions/all';
-        $divisions=$service->get($divisionUrl);
-
-        return view('smpp._form',compact('clients','divisions'));
+        //
     }
 
     /**
@@ -52,15 +39,7 @@ class JnsM2mSmppController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $request->validate([
-            'dr_format'=>'required|integer'
-        ]);
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/smpp/user';
-        $response = $service->post($url,$request);
-
-        return redirect(route('smpps.users.index'));
+        //
     }
 
     /**

@@ -37,7 +37,7 @@
               <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
             </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
         <li class="nav-title">Settings</li>
-        <li class="nav-item"><a class="nav-link" href="colors.html">
+        <li class="nav-item"><a class="nav-link" href="c{{route('users.index')}}">
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
             </svg> Users</a></li>
@@ -72,8 +72,8 @@
             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
           </svg> M2M</a>
         <ul class="nav-group-items">
-          <li class="nav-item"><a class="nav-link" href="{{route('jns.https.index')}}"><span class="nav-icon"></span> HTTP Users</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{route('jns.smpps.index')}}"><span class="nav-icon"></span> SMPP Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('m2m.users.index')}}"><span class="nav-icon"></span> HTTP Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('smpps.users.index')}}"><span class="nav-icon"></span> SMPP Users</a></li>
        
         </ul>
       </li>
@@ -90,7 +90,20 @@
       </li>
         
         
-       
+      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+        <svg class="nav-icon">
+          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+        </svg> INFORMATIONS</a>
+      <ul class="nav-group-items">
+        <li class="nav-item"><a class="nav-link" href="{{route('information.audittrail')}}"><span class="nav-icon"></span> Audit Trail</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.invalidwording')}}"><span class="nav-icon"></span> Invalid Wording</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.blacklist')}}"><span class="nav-icon"></span> Black List</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.drlist')}}"><span class="nav-icon"></span> DR List</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.masking')}}"><span class="nav-icon"></span> Masking</a></li>
+     
+      </ul>
+    </li>
+      <li class="nav-item"><a class="nav-link" href=""><span class="nav-icon"></span> Report</a></li>
         
       </ul>
     </div>

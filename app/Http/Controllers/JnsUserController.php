@@ -43,15 +43,13 @@ class JnsUserController extends Controller
                 'username'=>'required|string',
                 'password'=>'required|confirmed|min:8',
                 'name'=>'required',
-                'email'=>'required',
         ]);
 
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user';
         $response = $service->post($url,$request);
-        dd($response);
+        return redirect(route('jns.users.index'));
 
-       // return redirect(route('jns.users.index'));
     }
 
     /**
@@ -73,7 +71,13 @@ class JnsUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/client';
+        $clients = $service->get($url);
+
+        $user = env('API_URL').'/api/jns/user/'.$id;
+        $user = $service->get($user);
+        return view('jns.user._form_edit',compact('clients','user','id'));
     }
 
     /**
@@ -85,7 +89,15 @@ class JnsUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'username'=>'required',
+        ]);
+
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/user/'.$id;
+        $response = $service->put($url,$request);
+        return redirect(route('jns.users.index'));
     }
 
     /**
@@ -96,6 +108,10 @@ class JnsUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/user/'.$id;
+        $response = $service->delete($url);
+
+        return redirect(route('jns.divisions.index'));
     }
 }

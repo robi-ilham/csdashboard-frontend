@@ -1,4 +1,4 @@
-<form action="{{route('jns.users.store')}}"  method="POST" >
+<form method="POST" action="{{route('jns.users.store')}}"   >
     @csrf
     <div class="row">
         <div class="col-12">

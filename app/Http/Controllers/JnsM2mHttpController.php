@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
 
 class JnsM2mHttpController extends Controller
@@ -13,7 +14,14 @@ class JnsM2mHttpController extends Controller
      */
     public function index()
     {
-        return view('jns.m2m.index');
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/m2m/user';
+        $response = $service->get($url);
+
+        $clientsUrl=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($clientsUrl);
+
+        return view('m2m.index',compact('response','clients'));
     }
 
     /**
@@ -23,7 +31,14 @@ class JnsM2mHttpController extends Controller
      */
     public function create()
     {
-        return view('jns.m2m._form');
+        $service = new ServiceRequest();
+        $clientsUrl=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($clientsUrl);
+
+        $divisionUrl=env('API_URL').'/api/jns/divisions/all';
+        $divisions=$service->get($divisionUrl);
+
+        return view('m2m._form',compact('clients','divisions'));
     }
 
     /**
@@ -34,7 +49,14 @@ class JnsM2mHttpController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'username'=>'required'
+        ]);
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/m2m/user';
+        $response = $service->post($url,$request);
+
+        return redirect(route('m2m.users.index'));
     }
 
     /**
@@ -56,7 +78,16 @@ class JnsM2mHttpController extends Controller
      */
     public function edit($id)
     {
-        //
+        $service = new ServiceRequest();
+        $clientsUrl=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($clientsUrl);
+
+        $divisionUrl=env('API_URL').'/api/jns/divisions/all';
+        $divisions=$service->get($divisionUrl);
+
+        $userUrl= env('API_URL').'/api/m2m/user/'.$id;
+        $user=$service->get($userUrl);
+        return view('jns.division._edit_form',compact('clients','divisions','user'));
     }
 
     /**
@@ -68,7 +99,7 @@ class JnsM2mHttpController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -79,6 +110,11 @@ class JnsM2mHttpController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/m2m/user/'.$id;
+        $response = $service->delete($url);
+
+        return redirect(route('m2m.users.index'));
     }
+    
 }
