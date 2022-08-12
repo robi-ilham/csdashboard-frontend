@@ -100,6 +100,10 @@
           <li class="nav-item"><a class="nav-link" href="{{route('information.blacklist')}}"><span class="nav-icon"></span> Black List</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.drlist')}}"><span class="nav-icon"></span> DR List</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.masking')}}"><span class="nav-icon"></span> Masking</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.prefix')}}"><span class="nav-icon"></span> Prefix</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.tokenbalance')}}"><span class="nav-icon"></span> Token Balance</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.tokenmap')}}"><span class="nav-icon"></span> Token Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.watemplate')}}"><span class="nav-icon"></span> WA Template</a></li>
      
       </ul>
     </li>

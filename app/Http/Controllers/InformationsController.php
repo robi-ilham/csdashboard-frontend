@@ -42,4 +42,39 @@ class InformationsController extends Controller
         //dd($response);
         return view('information.masking',compact('response'));
     }
+    public function prefix(){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/prefix';
+        $response = $service->get($url);
+        //dd($response);
+        return view('information.prefix',compact('response'));
+    }
+    public function privilege(){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/privilege';
+        $response = $service->get($url);
+        //dd($response);
+        return view('information.privilege',compact('response'));
+    }
+    public function tokenbalance(){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/tokenbalance';
+        $response = $service->get($url);
+        //dd($response);
+        return view('information.tokenbalance',compact('response'));
+    }
+    public function tokenmap(){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/tokenmap';
+        $response = $service->get($url);
+        //dd($response);
+        return view('information.tokenmap',compact('response'));
+    }
+    public function watemplate(){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/watemplate';
+        $response = $service->get($url);
+        //dd($response);
+        return view('information.watemplate',compact('response'));
+    }
 }

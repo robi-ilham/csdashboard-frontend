@@ -69,6 +69,11 @@ Route::middleware('authentication')->group(function(){
         Route::get('blacklist',[InformationsController::class,'blacklist'])->name('blacklist');
         Route::get('drlist',[InformationsController::class,'drlist'])->name('drlist');
         Route::get('masking',[InformationsController::class,'masking'])->name('masking');
+        Route::get('prefix',[InformationsController::class,'prefix'])->name('prefix');
+        Route::get('privilege',[InformationsController::class,'privilege'])->name('privilege');
+        Route::get('tokenbalance',[InformationsController::class,'tokenbalance'])->name('tokenbalance');
+        Route::get('tokenmap',[InformationsController::class,'tokenmap'])->name('tokenmap');
+        Route::get('watemplate',[InformationsController::class,'watemplate'])->name('watemplate');
     });
 
 });
