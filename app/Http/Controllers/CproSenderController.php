@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
+use App\Service\ServiceRequest;
 
-class UserController extends Controller
+class CproSenderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,12 @@ class UserController extends Controller
     public function index()
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/user';
+        $url=env('API_URL').'/api/cpro/sender';
         $response = $service->get($url);
-       /// dd($response);
-        return view('user.index',['data'=>$response]); 
+
+      //  return $response;
+
+        return view('cpro.sender.index',compact('response'));
     }
 
     /**
@@ -28,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user._form_new');
+        //
     }
 
     /**
@@ -39,16 +41,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'username'=>'name',
-            'email'=>'required',
-            'password'=>'required|confirmed'
-        ]);
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/user';
-        $response = $service->post($url,$request);
-        
-        return $response;
+        //
     }
 
     /**
@@ -70,14 +63,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $service = new ServiceRequest();
-        
-
-        $userUrl= env('API_URL').'/api/user/'.$id;
-        $user=$service->get($userUrl);
-
-       // print_r($user);exit;
-        return view('user._form_edit',compact('user','id'));
+        //
     }
 
     /**
@@ -89,17 +75,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name'=>'required'
-        ]);
-
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/user/'.$id;
-        $response = $service->put($url,$request);
-
-       // print_r($response);
-
-        return redirect(route('users.index'));
+        //
     }
 
     /**
@@ -110,10 +86,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/user/'.$id;
-        $response = $service->delete($url);
-
-        return redirect(route('users.index'));
+        //
     }
 }

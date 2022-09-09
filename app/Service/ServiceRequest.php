@@ -7,14 +7,15 @@ class ServiceRequest {
 
     public function get($url){
         $token = session('token');
-        $response = Http::accept('application/json')->withToken($token)->get($url)->throw()->json();
+        $response = Http::accept('application/json')->withToken($token)->get($url)->json();
         return $response;
     }
 
     public function post($url,$params=null){
         $token = session('token');
 
-        $response = Http::accept('application/json')->withToken($token)->post($url,$params)->throw()->json();
+        $response = Http::accept('application/json')->withToken($token)->post($url,$params) ;
+       
         return $response;
     }
 

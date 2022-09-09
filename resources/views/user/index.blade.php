@@ -55,12 +55,8 @@
                             <td>{{ $row['name'] }}</td>
                             <td>{{ $row['email'] }}</td>
                             <td>
-                                <a class="btn btn-sm btn-warning" href="{{ route('users.edit', ['user'=>$row['id']]) }}">Ubah</a>
-                                <form method="POST" action="{{ route('users.destroy', ['user'=>$row['id']]) }}" style="display: inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus Data?')">Hapus</button>
-                                </form>
+                                <a href="{{route('users.edit',['user'=>$row['id']])}}" target-modal="#userForm" class="btn btn-warning btn-sm text-white update-modal-form">Edit</a>
+                                <a href="{{route('users.delete',['user'=>$row['id']])}}" class="btn btn-danger btn-sm text-white ajax-delete">Delete</a> 
                             </td>
                         </tr>
                         @endforeach

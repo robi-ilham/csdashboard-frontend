@@ -37,7 +37,7 @@
               <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
             </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
         <li class="nav-title">Settings</li>
-        <li class="nav-item"><a class="nav-link" href="c{{route('users.index')}}">
+        <li class="nav-item"><a class="nav-link" href="{{route('users.index')}}">
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
             </svg> Users</a></li>
@@ -50,7 +50,6 @@
           <ul class="nav-group-items">
             <li class="nav-item"><a class="nav-link" href="{{route('jns.users.index')}}"><span class="nav-icon"></span> Users</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('jns.divisions.index')}}"><span class="nav-icon"></span> Divisions</a></li>
-            <li class="nav-item"><a class="nav-link" href="base/cards.html"><span class="nav-icon"></span> Informations</a></li>
          
           </ul>
         </li>
@@ -60,9 +59,11 @@
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
             </svg> CPRO</a>
           <ul class="nav-group-items">
-            <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"></span> Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"></span> Divisions</a></li>
-            <li class="nav-item"><a class="nav-link" href="base/cards.html"><span class="nav-icon"></span> Informations</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.users.index')}}"><span class="nav-icon"></span> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.divisions.index')}}"><span class="nav-icon"></span> Divisions</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.audittrails.index')}}"><span class="nav-icon"></span> Audit Trail</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.senders.index')}}"><span class="nav-icon"></span> Sender</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.clients.index')}}"><span class="nav-icon"></span> CLient</a></li>
          
           </ul>
         </li>
@@ -82,9 +83,8 @@
             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
           </svg> WAI</a>
         <ul class="nav-group-items">
-          <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"></span> Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"></span> Divisions</a></li>
-            <li class="nav-item"><a class="nav-link" href="base/cards.html"><span class="nav-icon"></span> Informations</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('wai.users.index')}}"><span class="nav-icon"></span> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href=""><span class="nav-icon"></span> Divisions</a></li>
        
         </ul>
       </li>

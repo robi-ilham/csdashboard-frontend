@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CproAuditTrailController;
+use App\Http\Controllers\CproClient;
+use App\Http\Controllers\CproDivisionController;
+use App\Http\Controllers\CproSenderController;
+use App\Http\Controllers\CproUserController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\JnsClientController;
 use App\Http\Controllers\JnsDivisionController;
@@ -8,6 +13,7 @@ use App\Http\Controllers\JnsM2mHttpController;
 use App\Http\Controllers\JnsM2mSmppController;
 use App\Http\Controllers\JnsUserController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WaiUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +43,8 @@ Route::name('auth.')->prefix('auth')->group(function(){
 Route::middleware('authentication')->group(function(){
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('users', UserController::class);
+    Route::post('/users/update/{id}',[UserController::class,'update'])->name('users.update');
+    Route::post('/users/delete/{user}',[UserController::class,'destroy'])->name('users.delete');
 
     Route::name('jns.')->prefix('jns')->group(function(){
         
@@ -62,7 +70,19 @@ Route::middleware('authentication')->group(function(){
         Route::resource('users', JnsM2mSmppController::class);
         Route::post('/users/delete/{user}',[JnsM2mHttpController::class,'destroy'])->name('users.delete');
     });
+    Route::name('wai.')->prefix('wai')->group(function(){
+        Route::resource('users', WaiUserController::class);
+        Route::post('/users/delete/{user}',[WaiUserController::class,'destroy'])->name('users.delete');
+    });
+    Route::name('cpro.')->prefix('cpro')->group(function(){
+        Route::resource('users', CproUserController::class);
+        Route::post('/users/delete/{user}',[CproUserController::class,'destroy'])->name('users.delete');
 
+        Route::resource('divisions', CproDivisionController::class);
+        Route::resource('clients', CproClient::class);
+        Route::resource('senders', CproSenderController::class);
+        Route::resource('audittrails', CproAuditTrailController::class);
+    });
     Route::name('information.')->prefix('information')->group(function(){
         Route::get('audittrail',[InformationsController::class,'audittrail'])->name('audittrail');
         Route::get('invalidwording',[InformationsController::class,'invalidwording'])->name('invalidwording');
