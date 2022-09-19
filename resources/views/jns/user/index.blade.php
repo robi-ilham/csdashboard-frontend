@@ -18,24 +18,35 @@
                 <div class="card-body">
                     <div class="card">
                         <div class="card-body">
-                            <form action="">
+                            <form method="GET" action="{{route('jns.users.index')}}">
+                                @csrf
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="username">Username</label>
-                                            <input class="form-control" id="username" type="text" placeholder="Username">
+                                            <input class="form-control" id="username" type="text" placeholder="Username" name="username">
                                           </div>
                                     </div>
                                     <div class="col-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="group">Group</label>
-                                            <input class="form-control" id="group" type="text" placeholder="Group">
+                                            <select name="group_id" class="form-control" id="group">
+                                                <option value="">Group</option>
+                                                @foreach ($groups as $group)
+                                                    <option value="{{$group['id']}}">{{$group['name']}}</option>
+                                                @endforeach
+                                            </select> 
                                           </div>
                                     </div>
                                     <div class="col-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="division">Division</label>
-                                            <input class="form-control" id="division" type="text" placeholder="Division">
+                                            <select name="division_id" class="form-control" id="divison">
+                                                <option value="">DIvision</option>
+                                                @foreach ($divisions['data'] as $division)
+                                                    <option value="{{$division['id']}}">{{$division['name']}}</option>
+                                                @endforeach
+                                            </select>
                                           </div>
                                     </div>
                                 </div>
@@ -49,7 +60,13 @@
                                     <div class="col-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="group">Client</label>
-                                            <input class="form-control" id="client" type="text" placeholder="Client">
+                                            <select name="client_id" class="form-control" id="client_id">
+                                                <option value="">Client</option>
+
+                                                @foreach ($clients as $client)
+                                                    <option value="{{$client['id']}}">{{$client['name']}}</option>
+                                                @endforeach
+                                            </select>
                                           </div>
                                     </div>
                                    
@@ -92,7 +109,7 @@
 
   <!-- Modal -->
   <div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">User</h5>

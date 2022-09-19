@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="{{ asset('vendors/simplebar/css/simplebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors/simplebar.css') }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/datatables.css') }}" rel="stylesheet">
+  <!-- Tempus Dominus Styles -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
@@ -34,29 +38,32 @@
       <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-item"><a class="nav-link" href="index.html">
             <svg class="nav-icon">
-              <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
+              <use xlink:href="{{ asset('/vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
             </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
-        <li class="nav-title">Settings</li>
-        <li class="nav-item"><a class="nav-link" href="{{route('users.index')}}">
+        <li class="nav-item"><a class="nav-link" href="{{route('users.all')}}">
             <svg class="nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
             </svg> Users</a></li>
+            
+            <li class="nav-item"><a class="nav-link" href="{{route('jns.divisions.index')}}"> <svg class="nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+            </svg> Divisions</a></li>
      
-        <li class="nav-title">Appplications</li>
+        {{-- <li class="nav-title">Appplications</li>
         <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
             <svg class="nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
             </svg> JNS</a>
           <ul class="nav-group-items">
             <li class="nav-item"><a class="nav-link" href="{{route('jns.users.index')}}"><span class="nav-icon"></span> Users</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('jns.divisions.index')}}"><span class="nav-icon"></span> Divisions</a></li>
          
           </ul>
-        </li>
+        </li> --}}
 
-        <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+        {{-- <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
             <svg class="nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
             </svg> CPRO</a>
           <ul class="nav-group-items">
             <li class="nav-item"><a class="nav-link" href="{{route('cpro.users.index')}}"><span class="nav-icon"></span> Users</a></li>
@@ -70,7 +77,7 @@
 
         <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
           <svg class="nav-icon">
-            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
           </svg> M2M</a>
         <ul class="nav-group-items">
           <li class="nav-item"><a class="nav-link" href="{{route('m2m.users.index')}}"><span class="nav-icon"></span> HTTP Users</a></li>
@@ -80,19 +87,19 @@
       </li>
         <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
           <svg class="nav-icon">
-            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
           </svg> WAI</a>
         <ul class="nav-group-items">
           <li class="nav-item"><a class="nav-link" href="{{route('wai.users.index')}}"><span class="nav-icon"></span> Users</a></li>
             <li class="nav-item"><a class="nav-link" href=""><span class="nav-icon"></span> Divisions</a></li>
        
         </ul>
-      </li>
+      </li> --}}
         
         
       <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
         <svg class="nav-icon">
-          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
         </svg> INFORMATIONS</a>
       <ul class="nav-group-items">
         <li class="nav-item"><a class="nav-link" href="{{route('information.audittrail')}}"><span class="nav-icon"></span> Audit Trail</a></li>
@@ -104,6 +111,10 @@
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenbalance')}}"><span class="nav-icon"></span> Token Balance</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenmap')}}"><span class="nav-icon"></span> Token Map</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.watemplate')}}"><span class="nav-icon"></span> WA Template</a></li>
+
+          <li class="nav-item"><a class="nav-link" href="{{route('cpro.audittrails.index')}}"><span class="nav-icon"></span> CPRO Audit Trail</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.senders.index')}}"><span class="nav-icon"></span> CPRO Sender</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.clients.index')}}"><span class="nav-icon"></span> CPRO CLient</a></li>
      
       </ul>
     </li>
@@ -116,7 +127,7 @@
         <div class="container-fluid">
           <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
             <svg class="icon icon-lg">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
             </svg>
           </button><a class="header-brand d-md-none" href="#">
             <svg width="118" height="46" alt="CoreUI Logo">
@@ -126,12 +137,12 @@
           <ul class="header-nav ms-auto">
             <li class="nav-item"><a class="nav-link" href="#">
                 <svg class="icon icon-lg">
-                  <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
                 </svg></a></li>
             
             <li class="nav-item"><a class="nav-link" href="{{route('auth.logout')}}">
                 <svg class="icon icon-lg">
-                  <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
                 </svg></a></li>
           </ul>
           
@@ -160,8 +171,17 @@
 </body>
 </html>
  <!-- CoreUI and necessary plugins-->
- <script src="{{ asset('vendors/@coreui/coreui/js/coreui.bundle.min.js') }}"></script>
+ <script src="{{ asset('/vendors/@coreui/coreui/js/coreui.bundle.min.js') }}"></script>
     <script src="{{ asset('vendors/simplebar/js/simplebar.min.js') }}"></script>
 
-    <script src="{{ asset('vendors/@coreui/utils/js/coreui-utils.js') }}"></script>
+    <script src="{{ asset('/vendors/@coreui/utils/js/coreui-utils.js') }}"></script>
+   
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+    crossorigin="anonymous"></script>
+
+    <script src="{{ asset('js/datatables.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    @yield ('script')

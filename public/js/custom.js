@@ -1,5 +1,8 @@
 
-    $("button.btn-modal-new-form").on("click",function(){
+   function tablecrud(){
+
+   
+   $("button.btn-modal-new-form").on("click",function(){
         page = $(this).attr('target-url');
         modaltarget = $(this).attr("target-modal")
         $.ajax({
@@ -38,4 +41,6 @@
         }
         
     });
+}
+tablecrud();
 

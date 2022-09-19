@@ -13,6 +13,7 @@ use App\Http\Controllers\JnsM2mHttpController;
 use App\Http\Controllers\JnsM2mSmppController;
 use App\Http\Controllers\JnsUserController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserCproController;
 use App\Http\Controllers\WaiUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,10 +43,18 @@ Route::name('auth.')->prefix('auth')->group(function(){
 
 Route::middleware('authentication')->group(function(){
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/users/all', [UserController::class, 'allUserApp'])->name('users.all');
     Route::resource('users', UserController::class);
     Route::post('/users/update/{id}',[UserController::class,'update'])->name('users.update');
     Route::post('/users/delete/{user}',[UserController::class,'destroy'])->name('users.delete');
 
+    Route::name('usercpro.')->prefix('usercpro')->group(function(){
+        Route::get('/users/data',[UserCproController::class,'userList'])->name('users.list');
+        Route::get('/users',[UserCproController::class,'index'])->name('users.index');
+      //  Route::get('/users', UserCproController::class); 
+       
+       // Route::get('users/list', UserCproController::class,'getUserList')->name('users.list');
+    });
     Route::name('jns.')->prefix('jns')->group(function(){
         
             Route::resource('users', JnsUserController::class);
@@ -64,14 +73,17 @@ Route::middleware('authentication')->group(function(){
     });
     Route::name('m2m.')->prefix('m2m')->group(function(){
         Route::resource('users', JnsM2mHttpController::class);
+        Route::post('/users/update/{id}',[JnsM2mHttpController::class,'update'])->name('user.update');
         Route::post('/users/delete/{user}',[JnsM2mHttpController::class,'destroy'])->name('users.delete');
     });
     Route::name('smpps.')->prefix('smpps')->group(function(){
         Route::resource('users', JnsM2mSmppController::class);
+        Route::post('/users/update/{id}',[JnsM2mSmppController::class,'update'])->name('user.update');
         Route::post('/users/delete/{user}',[JnsM2mHttpController::class,'destroy'])->name('users.delete');
     });
     Route::name('wai.')->prefix('wai')->group(function(){
         Route::resource('users', WaiUserController::class);
+        Route::post('/users/update/{id}',[WaiUserController::class,'update'])->name('user.update');
         Route::post('/users/delete/{user}',[WaiUserController::class,'destroy'])->name('users.delete');
     });
     Route::name('cpro.')->prefix('cpro')->group(function(){

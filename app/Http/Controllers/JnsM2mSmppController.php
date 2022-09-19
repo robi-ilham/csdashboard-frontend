@@ -40,7 +40,7 @@ class JnsM2mSmppController extends Controller
 
         $divisionUrl=env('API_URL').'/api/jns/divisions/all';
         $divisions=$service->get($divisionUrl);
-
+        
         return view('smpp._form',compact('clients','divisions'));
     }
 
@@ -50,7 +50,7 @@ class JnsM2mSmppController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
        
         $request->validate([
@@ -59,6 +59,7 @@ class JnsM2mSmppController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/smpp/user';
         $response = $service->post($url,$request);
+        return back()->withInput();
 
         return redirect(route('smpps.users.index'));
     }
@@ -82,7 +83,17 @@ class JnsM2mSmppController extends Controller
      */
     public function edit($id)
     {
-        //
+        $service = new ServiceRequest();
+        $clientsUrl=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($clientsUrl);
+
+        $divisionUrl=env('API_URL').'/api/jns/divisions/all';
+        $divisions=$service->get($divisionUrl);
+
+        $userUrl= env('API_URL').'/api/smpp/user/'.$id;
+        $user=$service->get($userUrl);
+        //print_r($user);
+        return view('smpp._edit_form',compact('clients','divisions','user','id'));
     }
 
     /**
@@ -94,7 +105,15 @@ class JnsM2mSmppController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/smpp/user/'.$id;
+        $response = $service->put($url,$request);
+
+        return back()->withInput();
+       // return $response;
+        return redirect(route('smpps.users.index'));
     }
 
     /**
@@ -105,6 +124,10 @@ class JnsM2mSmppController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/smpp/user/'.$id;
+        $response = $service->delete($url);
+        return back()->withInput();
+        return redirect(route('smpps.users.index'));
     }
 }

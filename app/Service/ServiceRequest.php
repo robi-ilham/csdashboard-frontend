@@ -5,9 +5,13 @@ use Illuminate\Support\Facades\Http;
 
 class ServiceRequest {
 
-    public function get($url){
+    public function get($url,$request=null){
         $token = session('token');
-        $response = Http::accept('application/json')->withToken($token)->get($url)->json();
+        $response = Http::accept('application/json');
+        if($request!=null){
+            $response=$response->asForm();
+        }
+        $response = $response->withToken($token)->get($url,$request)->json();
         return $response;
     }
 

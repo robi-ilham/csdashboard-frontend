@@ -55,7 +55,7 @@ class JnsM2mHttpController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/m2m/user';
         $response = $service->post($url,$request);
-
+        return back()->withInput();
         return redirect(route('m2m.users.index'));
     }
 
@@ -87,9 +87,66 @@ class JnsM2mHttpController extends Controller
 
         $userUrl= env('API_URL').'/api/m2m/user/'.$id;
         $user=$service->get($userUrl);
-        return view('jns.division._edit_form',compact('clients','divisions','user'));
+        $accessMod=0;
+        if($user){
+            $mod= $user['access_mod'];
+            if($mod!=0){
+                $accessMod=$this->calculateMod($mod);
+            }
+        }
+        
+        return view('m2m._edit_form',compact('clients','divisions','user','id','accessMod'));
     }
-
+    
+    private function calculateMod($accessMod){
+        switch($accessMod){
+            case 1:
+                return [1];
+                break;
+            case 2 :
+                return [2];
+                break;
+            case 4 :
+                return [4];
+                break;
+            case 8:
+                return [8];
+                break;
+            case 3:
+                return [1,2];
+                break;
+            case 5:
+                return [1,4];
+                break;
+            case 9:
+                return [1,9];
+                break;
+            case 6:
+                return [2,4];
+                break;
+            case 10:
+                return [2,8];
+                break;
+            case 12:
+                return [4,8];
+                break;
+            case 7 : 
+                return [1,2,4];
+                break;
+            case 11:
+                return [1,2,8];
+                break;
+            case 13:
+                return [1,4,8];
+                break;
+            case 14:
+                return [2,4,8];
+                break;
+            case 15:
+                return [1,2,4,8];
+                break;
+        }
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -99,7 +156,11 @@ class JnsM2mHttpController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/m2m/user/'.$id;
+        $response = $service->put($url,$request);
+        return back()->withInput();
+        return redirect(route('m2m.users.index'));
     }
 
     /**
@@ -113,7 +174,7 @@ class JnsM2mHttpController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/m2m/user/'.$id;
         $response = $service->delete($url);
-
+        return back()->withInput();
         return redirect(route('m2m.users.index'));
     }
     

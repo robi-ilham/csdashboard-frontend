@@ -12,13 +12,27 @@ class JnsUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user';
-        $response = $service->get($url);
+        $data = $service->get($url,$request);
 
-        return view('jns.user.index',['data'=>$response]);
+        $urlDiv=env('API_URL').'/api/jns/division';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
+
+       
+
+
+        return view('jns.user.index',compact('data','divisions','groups','clients'));
     }
 
     /**
@@ -28,7 +42,19 @@ class JnsUserController extends Controller
      */
     public function create()
     {
-        return view('jns.user._form_new');
+        $service = new ServiceRequest();
+        
+
+        $urlDiv=env('API_URL').'/api/jns/division';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
+
+        return view('jns.user._form_new',compact('divisions','groups','clients'));
     }
 
     /**
@@ -48,6 +74,7 @@ class JnsUserController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user';
         $response = $service->post($url,$request);
+        return back()->withInput();
         return redirect(route('jns.users.index'));
 
     }
@@ -77,7 +104,16 @@ class JnsUserController extends Controller
 
         $user = env('API_URL').'/api/jns/user/'.$id;
         $user = $service->get($user);
-        return view('jns.user._form_edit',compact('clients','user','id'));
+
+        $urlDiv=env('API_URL').'/api/jns/division';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
+        return view('jns.user._form_edit',compact('clients','user','id','divisions','groups','clients'));
     }
 
     /**
@@ -96,7 +132,11 @@ class JnsUserController extends Controller
 
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user/'.$id;
+        
         $response = $service->put($url,$request);
+
+       return back()->withInput();
+
         return redirect(route('jns.users.index'));
     }
 
@@ -111,6 +151,8 @@ class JnsUserController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user/'.$id;
         $response = $service->delete($url);
+
+        return back()->withInput();
 
         return redirect(route('jns.divisions.index'));
     }

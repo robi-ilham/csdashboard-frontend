@@ -12,6 +12,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function allUserApp(){
+        return view('user.all-user'); 
+
+    }
     public function index()
     {
         $service = new ServiceRequest();
