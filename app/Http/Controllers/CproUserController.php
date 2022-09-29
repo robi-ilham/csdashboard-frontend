@@ -30,7 +30,7 @@ class CproUserController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**
@@ -41,7 +41,13 @@ class CproUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'api/cpro/user';
+        $response = $service->post($url,$request);
+        
+      //  return $response;
+
+        return view('cpro.user.index',compact('response'));
     }
 
     /**
@@ -63,7 +69,7 @@ class CproUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -86,6 +92,10 @@ class CproUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/user/'.$id;
+        $response = $service->delete($url);
+        return back()->withInput();
+        return redirect(route('wai.users.index'));
     }
 }

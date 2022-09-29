@@ -19,19 +19,27 @@
           
           <div class="tab-content">
             
-            <div class="tab-pane active mt-3 " id="jns">loading data jns..</div>
+            <div class="tab-pane active mt-3 " id="jns">
+                @include('user._jnsuser')
+
+
+            </div>
             <div class="tab-pane mt-3" id="cpro">loading data cpro..</div>
-            <div class="tab-pane mt-3" id="m2m">loading data m2m..</div>
-            <div class="tab-pane mt-3" id="smpp">loading data smpp..</div>
-            <div class="tab-pane mt-3" id="wai">loading data WAI..</div>
+            <div class="tab-pane mt-3" id="m2m">
+              @include('user._m2muser')
+            
+            </div>
+            <div class="tab-pane mt-3" id="smpp">
+              @include('user._smppuser')
+            </div>
+            <div class="tab-pane mt-3" id="wai">@include('user._waiuser')</div>
             <div class="tab-pane   mt-3" id="cstools">loading data jns..</div>
           </div>
         </div>
     </div>
 </div>
-<div class="container-fluid">
 
-  
+ 
 
 @endsection
 @section('script')
@@ -49,13 +57,24 @@ $(function() {
     
   }
   active.tab('show');
-
+  console.log(lastTab);
   var url = active.attr("data-url");
-    console.log(lastTab);
-    $(lastTab).load(url+" .body",function(result){   
-        tablecrud();
-	  });
+  if(lastTab=='#jns'){
+    jnsUserDatatable();
+  }else if(lastTab=="#m2m"){
+    m2mUserDatatable();
+  }else if(lastTab=="#smpp"){
+    smppUserDatatable();
+  }else if(lastTab=="#wai"){
+    waiUserDatatable();
+  }else{
+    $(lastTab).load(url+" .body",function(result){
+      tablecrud();
+    });
+  }
   
+  // 
+  // m2mUserDatatable();
 });
 
 
@@ -67,17 +86,27 @@ $('#myTabs a').click(function (e) {
   	var pane = $(this);
 	
 	// ajax load from data-url
-	$(href).load(url+" .body",function(result){   
-	    pane.tab('show');
-        tablecrud();
-	});
+
+  
+  if(href=="#jns"){
+    jnsUserDatatable();
+  }else if(href=="#m2m"){
+    m2mUserDatatable();
+  }else if(href=="#smpp"){
+    smppUserDatatable();
+  }else if(href=="#wai"){
+    waiUserDatatable();
+  }else{
+    $(href).load(url+" .body",function(result){
+    tablecrud();
+  });
+  }
+	// 
+  // m2mUserDatatable();
 });
 
 
-// $('#jns').load($('.nav-item a.active').attr("data-url")+" .body",function(result){
-//   $('.active a').tab('show');
-//   tablecrud();
-// });
+
 
 </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class JnsM2mHttpController extends Controller
 {
@@ -22,6 +23,25 @@ class JnsM2mHttpController extends Controller
         $clients = $service->get($clientsUrl);
 
         return view('m2m.index',compact('response','clients'));
+    }
+    public function list(Request $request)
+    {
+        //return $request;
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/m2m/user/index-ajax';
+        $data = $service->get($url,$request);
+        //return $data;
+        return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="'.route('m2m.users.edit',['user'=>$row['id']]).'" data-href="'.route('m2m.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm m2mUserEdit">Edit</a> <a href="'.route('m2m.users.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white m2mUserDelete">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+
+       
     }
 
     /**
@@ -94,7 +114,7 @@ class JnsM2mHttpController extends Controller
                 $accessMod=$this->calculateMod($mod);
             }
         }
-        
+        return $user;
         return view('m2m._edit_form',compact('clients','divisions','user','id','accessMod'));
     }
     

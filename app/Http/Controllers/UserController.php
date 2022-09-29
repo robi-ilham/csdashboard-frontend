@@ -14,16 +14,38 @@ class UserController extends Controller
      */
 
     public function allUserApp(){
-        return view('user.all-user'); 
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/user';
+        $data = $service->get($url);
+
+        $urlDiv=env('API_URL').'/api/jns/divisions/all';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
+       /// dd($response);
+        return view('user.all-user',compact('data','divisions','groups','clients')); 
 
     }
     public function index()
     {
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/user';
-        $response = $service->get($url);
+        $data = $service->get($url);
+
+        $urlDiv=env('API_URL').'/api/jns/division';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
        /// dd($response);
-        return view('user.index',['data'=>$response]); 
+        return view('user.index',compact('data','divisions','groups','clients')); 
     }
 
     /**

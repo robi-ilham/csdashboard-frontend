@@ -118,7 +118,18 @@
      
       </ul>
     </li>
-      <li class="nav-item"><a class="nav-link" href=""><span class="nav-icon"></span> Report</a></li>
+    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+      <svg class="nav-icon">
+        <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+      </svg> Report</a>
+    <ul class="nav-group-items">
+      <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.broadcast-list')}}"><span class="nav-icon"></span> Cpro Broadcast  List</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.helpdesk-list')}}"><span class="nav-icon"></span> Cpro Helpdesk  List</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.chatbot-list')}}"><span class="nav-icon"></span> Cpro Chatbot List </a></li>
+       
+   
+    </ul>
+  </li>
         
       </ul>
     </div>

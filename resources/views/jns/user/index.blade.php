@@ -84,6 +84,10 @@
                             <Button class="btn btn-success text-white btn-modal-new-form" target-modal="#userForm" target-url="{{ route('jns.users.create')}}">Add New</Button>
                         </div>
                     </div>
+
+
+                    
+
                    <table class="table">
                     <thead>
                         <tr>
@@ -100,6 +104,10 @@
                         
                     </tbody>
                    </table>
+
+
+                  
+
                 </div>
             </div>
         </div>
@@ -124,5 +132,6 @@
       </div>
     </div>
   </div>
+ 
 @endsection
 

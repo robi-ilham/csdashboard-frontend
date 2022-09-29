@@ -20,15 +20,15 @@ class UserCproController extends Controller
 
     public function userList(Request $request)
     {
+       return User::paginate(2);
         if ($request->ajax()) {
-            $data = User::get();
+            $data = User::paginate(1);
             return DataTables::of($data)
                 ->addColumn('action', function($row){
                     $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
                     return $actionBtn;
                 })
-                ->rawColumns(['action'])
-                ->setTotalRecords(100)
+                
                 ->make(true);
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\ServiceRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class WaiUserController extends Controller
 {
@@ -21,9 +22,29 @@ class WaiUserController extends Controller
         $clientsUrl=env('API_URL').'/api/jns/clients/all';
         $clients = $service->get($clientsUrl);
 
+       // return $response;
+
         return view('wai.user.index',['response'=>$response,'clients'=>$clients]);
     }
+    public function list(Request $request)
+    {
+        //return $request;
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/wai/user/index-ajax';
+        $data = $service->get($url,$request);
+        //return $data;
+        return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="'.route('wai.users.edit',['user'=>$row['id']]).'" data-href="'.route('wai.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm waiUserEdit">Edit</a> <a href="'.route('wai.users.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white waiUserDelete">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
 
+
+       
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -105,6 +126,8 @@ class WaiUserController extends Controller
 
         $urlClient=env('API_URL').'/api/jns/clients/all';
         $clients = $service->get($urlClient);
+        return $user;
+        
         return view('wai.user.edit',compact('clients','user','id','divisions','groups','clients'));
     }
 

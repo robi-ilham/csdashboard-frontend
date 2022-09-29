@@ -28,7 +28,7 @@
         e.preventDefault();
         page = $(this).attr('href');
         console.log(page)
-        if(confirm("Are you sure wnat to delete?")){
+        if(confirm("Are you sure want to delete?")){
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -42,5 +42,8 @@
         
     });
 }
+
+
+
 tablecrud();
 

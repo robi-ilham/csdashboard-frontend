@@ -8,11 +8,24 @@
                 <div class="card-header">INVALID WORDING JNS</div>
 
                 <div class="card-body">
-                    
-                   <table class="table">
-                    <thead>
+                    <div class="row" id="invalidForm">
+                      <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="user">Invalid regex</label>
+                            <input class="form-control" name="invalid_regex" id="invalid_regex" type="text"
+                                placeholder="User">
+                        </div>
+                        <div class="col-6">
+                          <div class="mb-3">
+                              <button id="searchInvalidJns" class="btn btn-success mb-3 text-white" >Search</button>
+                          </div>
+                      </div>
+                    </div>
+                    </div>
+                   <table class="table table-bordered table-striped" id="jns-invalidword">
+                    <thead class="table-dark">
                         <tr>
-                            <th>ID</th><th>Invalid Regex </th>
+                            <th>No</th><th>ID</th><th>Invalid Regex </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,21 +46,55 @@
 
 
   
-  <!-- Modal -->
-  <div class="modal fade" id="m2mUserForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Division</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+<script type="text/javascript">
+  $(function() {
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+      invalidRegex = $('#jns-invalidword').DataTable({
+          //"order": [[ 8, "desc" ]],
+          // "scrollX": true,
+          "lengthChange": false,
+          //  "paging": true,
+          // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
+          "pageLength": 20,
+          "searching": false,
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "{{ route('information.invalidwording.data') }}",
+              "data": function(data) {
+                  // Read values
+                  var invalid_regex = $('#invalidForm #invalid_regex').val();
+           
+
+                  // Append to data
+                  data.invalid_regex = invalid_regex;
+                
+              }
+
+          },
+          "columns": [{
+                  data: 'DT_RowIndex',
+                  name: 'DT_RowIndex'
+              },
+              {
+                  data: 'invalid_regex',
+                  name: 'invalid_regex'
+              },
+          
+              {
+                  data: 'created',
+                  name: 'created'
+              },
+             
+
+          ]
+      });
+
+      $('#searchInvalidJns').on('click', function(e) {
+          e.preventDefault();
+          invalidRegex.draw();
+      });
+  });
+</script>
 @endsection
+

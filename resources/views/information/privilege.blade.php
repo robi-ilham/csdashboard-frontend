@@ -9,10 +9,10 @@
 
                 <div class="card-body">
                     
-                   <table class="table">
-                    <thead>
+                   <table class="table table-bordered table-striped" id="jns-privilege">
+                    <thead class="table-dark">
                         <tr>
-                            <th>Client</th><th>Division </th><th>Privilege Type</th><th>Enabled </th><th>State</th>
+                            <th>No</th><th>Client</th><th>Division </th><th>Privilege Type</th><th>Enabled </th><th>State</th><th>Created</th><th>Modified</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,21 +33,95 @@
 
 
   
-  <!-- Modal -->
-  <div class="modal fade" id="m2mUserForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Division</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+<script type="text/javascript">
+  $(function() {
+      $('#end_date,#start_date').datepicker({
+          format: 'yyyy-mm-dd',
+      });
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+
+      jnsPrivilege = $('#jns-privilege').DataTable({
+          //"order": [[ 8, "desc" ]],
+          // "scrollX": true,
+          "lengthChange": false,
+          //  "paging": true,
+          // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
+          "pageLength": 20,
+          "searching": true,
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "{{ route('information.privilege.data') }}",
+              "data": function(data) {
+                  // Read values
+                  var model = $('#searchJnsAudit #model').val();
+                  var client_id = $('#searchJnsAudit #client_id').find(':selected').val();
+                  var division_id = $('#m2mUssearchJnsAuditerSearchForm #division_id').find(
+                      ':selected').val();
+                  var event = $('#searchJnsAudit #event').val();
+                  var start_date = $('#searchJnsAudit #start_date').val();
+                  var end_date = $('#searchJnsAudit #end_date').val();
+
+                  // Append to data
+                  data.model = model;
+                  data.client_id = client_id;
+                  data.division_id = division_id;
+                  data.event=event;
+                  data.start_date=start_date;
+                  data.end_date=end_date;
+              }
+
+          },
+          "columns": [{
+                  data: 'DT_RowIndex',
+                  name: 'DT_RowIndex'
+              },
+              {
+                  data: 'client.name',
+                  name: 'client_id'
+              },
+              {
+                  data: 'division.name',
+                  name: 'division_id'
+              },
+              {
+                  data: 'type.name',
+                  name: 'type.name'
+              },
+              {
+                  data: 'enable',
+                  name: 'enable'
+              },
+              {
+                  data: 'state',
+                  name: 'state'
+              },
+              {
+                  data: 'created',
+                  name: 'created'
+              },
+              
+              {
+                  data: 'modified',
+                  name: 'modified'
+              },
+              //   {
+              //     data: 'action', 
+              //     name: 'action', 
+              //     orderable: true, 
+              //     searchable: true
+              // },
+
+          ],
+          
+      });
+
+      $('#btnSearchPrefix').on('click', function(e) {
+          e.preventDefault();
+          jnsPrefix.draw();
+      });
+  });
+</script>
 @endsection
