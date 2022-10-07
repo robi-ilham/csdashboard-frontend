@@ -18,7 +18,7 @@ class CproSenderController extends Controller
         $url=env('API_URL').'/api/cpro/sender';
         $response = $service->get($url);
 
-      //  return $response;
+      // return $response;
 
         return view('cpro.sender.index',compact('response'));
     }

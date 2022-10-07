@@ -11,37 +11,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form action="">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="username">Username</label>
-                                            <input class="form-control" id="username" type="text" placeholder="Username">
-                                          </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="group">Client</label>
-                                            <select class="form-control" name="client_id">
-                                                {{-- @foreach ($clients as $client )
-                                                    <option value="{{$client['id']}}">{{$client['name']}}</option>
-                                                @endforeach --}}
-                                            </select>
-                                          </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="group">Division</label>
-                                            <select class="form-control" name="division_id">
-                                            </select>
-                                          </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="">
-                                            <label class="form-label" for="group">&nbsp;</label>
-                                          </div>
-                                        <button type="submit" class="btn btn-success text-white">Search</button>
-                                    </div>
-                                </div>
+                                
                             
                                 
                             </form>
@@ -51,16 +21,16 @@
                    <table class="table">
                     <thead>
                         <tr>
-                            <th>No</th><th>Sender ID</th><th>Client</th><th>Client Type</th><th>Waba ID</th><th>Name Space</th><th>created</th><th>Modified</th>
+                            <th>Sender ID</th><th>Sender Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($response['query-result']['data'] as $client )
+                        @foreach ($response['Data'] as $sender )
                             
                         <tr>
-                            <td></td><td>{{$client['client-name']}}</td> 
+                            <td>{{$sender['sender-id']}}</td><td>{{$sender['sender-name']}}</td> 
                         </tr>
-                        @endforeach --}}
+                        @endforeach
 
                     </tbody>
                    </table>

@@ -7,20 +7,14 @@ use App\Service\ServiceRequest;
 
 class CproDivisionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/cpro/division';
         $response = $service->get($url);
+       // return $response;
 
-      //  return $response;
-
-        return view('cpro.division.index',compact('response'));
+        return view('cpro.division.index',['data'=>$response]);
     }
 
     /**
@@ -30,7 +24,10 @@ class CproDivisionController extends Controller
      */
     public function create()
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/client';
+        $clients = $service->get($url);
+        return view('cpro.division._form',compact('clients'));
     }
 
     /**
@@ -41,7 +38,15 @@ class CproDivisionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required'
+        ]);
+
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/division';
+        $response = $service->post($url,$request);
+
+        return redirect(route('cpro.divisions.index'));
     }
 
     /**
@@ -52,7 +57,7 @@ class CproDivisionController extends Controller
      */
     public function show($id)
     {
-        //
+        echo 'show';
     }
 
     /**
@@ -63,7 +68,13 @@ class CproDivisionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/client';
+        $clients = $service->get($url);
+
+        $divUrl = env('API_URL').'/api/cpro/division/'.$id;
+        $div = $service->get($divUrl);
+        return view('cpro.division._edit_form',compact('clients','div','id'));
     }
 
     /**
@@ -75,7 +86,15 @@ class CproDivisionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required'
+        ]);
+
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/division/'.$id;
+        $response = $service->put($url,$request);
+
+        return redirect(route('cpro.divisions.index'));
     }
 
     /**
@@ -86,6 +105,10 @@ class CproDivisionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/division/'.$id;
+        $response = $service->delete($url);
+
+        return redirect(route('cpro.divisions.index'));
     }
 }

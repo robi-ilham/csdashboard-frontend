@@ -90,6 +90,9 @@ Route::middleware('authentication')->group(function(){
         Route::post('/users/delete/{user}',[CproUserController::class,'destroy'])->name('users.delete');
 
         Route::resource('divisions', CproDivisionController::class);
+        Route::post('/divisions/update/{id}',[CproDivisionController::class,'update'])->name('division.update');
+            Route::post('/divisions/delete/{division}',[CproDivisionController::class,'destroy'])->name('division.delete');
+            
         Route::resource('clients', CproClient::class);
         Route::resource('senders', CproSenderController::class);
         Route::resource('audittrails', CproAuditTrailController::class);
