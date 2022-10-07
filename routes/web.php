@@ -49,13 +49,7 @@ Route::middleware('authentication')->group(function(){
     Route::post('/users/update/{id}',[UserController::class,'update'])->name('users.update');
     Route::post('/users/delete/{user}',[UserController::class,'destroy'])->name('users.delete');
 
-    Route::name('usercpro.')->prefix('usercpro')->group(function(){
-        Route::get('/users/data',[UserCproController::class,'userList'])->name('users.list');
-        Route::get('/users',[UserCproController::class,'index'])->name('users.index');
-      //  Route::get('/users', UserCproController::class); 
-       
-       // Route::get('users/list', UserCproController::class,'getUserList')->name('users.list');
-    });
+    
     Route::name('jns.')->prefix('jns')->group(function(){
             Route::get('/users/list',[JnsUserController::class,'list'])->name('user.list');
             Route::resource('users', JnsUserController::class);

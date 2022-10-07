@@ -51,14 +51,14 @@
                    <table class="table">
                     <thead>
                         <tr>
-                            <th>No</th><th>Client</th>
+                            <th>No</th><th>Client ID</th><th>Division name</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($response['query-result']['data'] as $client )
                             
                         <tr>
-                            <td></td><td>{{$client['client-name']}}</td> 
+                            <td>{{$client['row-num']}}</td><td>{{$client['client-id']}}</td> <td>{{$client['client-name']}}</td>
                         </tr>
                         @endforeach
 

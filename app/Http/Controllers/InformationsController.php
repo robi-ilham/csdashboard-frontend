@@ -94,10 +94,13 @@ class InformationsController extends Controller
 
     public function masking(){
         $service = new ServiceRequest();
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
+
         $url=env('API_URL').'/api/jns/masking';
         $response = $service->get($url);
         //dd($response);
-        return view('information.masking',compact('response'));
+        return view('information.masking',compact('response','clients'));
     }
     public function maskingData(Request $request){
         $service = new ServiceRequest();
@@ -111,10 +114,13 @@ class InformationsController extends Controller
 
     public function prefix(){
         $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/providers';
+        $providers = $service->get($url);
+
         $url=env('API_URL').'/api/jns/prefix';
         $response = $service->get($url);
         //dd($response);
-        return view('information.prefix',compact('response'));
+        return view('information.prefix',compact('response','providers'));
     }
 
     public function prefixData(Request $request){
@@ -162,14 +168,37 @@ class InformationsController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/tokenmap';
         $response = $service->get($url);
+
+        $urlDiv=env('API_URL').'/api/jns/divisions/all';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
         //dd($response);
-        return view('information.tokenmap',compact('response'));
+        return view('information.tokenmap',compact('response','clients','divisions'));
     }
     public function tokenmapData(Request $request){
+       
+        $page = ($request->start/10)+1;
+        $param=['page'=>$page] ;           
+        
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/tokenmap/index-ajax';
-        $response = $service->get($url,$request);
-        //dd($response);
+        $url=env('API_URL').'/api/jns/tokenmap/index-ajax?page='.$page;
+        $response = $service->get($url,$param);
+        return $response;
+
+        $return = [
+            "draw"=>$request->draw,
+            "recordsTotal"=>$response["total"],
+            "recordsFiltered"=>$response['total'],
+            "data"=>$response["data"],
+            "page"=>$page
+        ];
+        
+        return $return;
         return DataTables::of($response)
                 ->addIndexColumn()
                 ->make(true);

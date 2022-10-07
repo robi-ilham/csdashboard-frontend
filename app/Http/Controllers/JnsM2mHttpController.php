@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class JnsM2mHttpController extends Controller
@@ -30,7 +31,6 @@ class JnsM2mHttpController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/m2m/user/index-ajax';
         $data = $service->get($url,$request);
-        //return $data;
         return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
@@ -69,6 +69,12 @@ class JnsM2mHttpController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'username'=>'required|string'
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(),401);
+        }
         $request->validate([
             'username'=>'required'
         ]);
@@ -176,10 +182,12 @@ class JnsM2mHttpController extends Controller
      */
     public function update(Request $request, $id)
     {
+       // return response()->json($request);
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/m2m/user/'.$id;
         $response = $service->put($url,$request);
-        return back()->withInput();
+        return $response;
+      //  return back()->withInput();
         return redirect(route('m2m.users.index'));
     }
 

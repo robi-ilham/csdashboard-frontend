@@ -7,7 +7,7 @@ class ServiceRequest {
 
     public function get($url,$request=null){
         $token = session('token');
-        $response = Http::accept('application/json');
+        $response = Http::accept('application/json')->connectTimeout(600);
         if($request!=null){
             $response=$response->asForm();
         }
@@ -26,7 +26,7 @@ class ServiceRequest {
     public function put($url,$params=null){
         $token = session('token');
 
-        $response = Http::accept('application/json')->withToken($token)->put($url,$params)->throw()->json();
+        $response = Http::accept('application/json')->withToken($token)->put($url,$params);
         return $response;
     }
 

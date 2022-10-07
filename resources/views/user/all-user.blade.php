@@ -24,7 +24,7 @@
 
 
             </div>
-            <div class="tab-pane mt-3" id="cpro">loading data cpro..</div>
+            <div class="tab-pane mt-3" id="cpro">@include('user._cprouser').</div>
             <div class="tab-pane mt-3" id="m2m">
               @include('user._m2muser')
             
@@ -67,7 +67,10 @@ $(function() {
     smppUserDatatable();
   }else if(lastTab=="#wai"){
     waiUserDatatable();
-  }else{
+  }else if(lastTab=="#cpro"){
+    cproUserDatatable();
+  }
+  else{
     $(lastTab).load(url+" .body",function(result){
       tablecrud();
     });
@@ -96,6 +99,8 @@ $('#myTabs a').click(function (e) {
     smppUserDatatable();
   }else if(href=="#wai"){
     waiUserDatatable();
+  }else if(href=="#cpro"){
+    cproUserDatatable();
   }else{
     $(href).load(url+" .body",function(result){
     tablecrud();

@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">TOKEN BALANCE JNS</div>
 
                     <div class="card-body">
-
+                       
                         <table class="table table-bordered table-striped" id="jns-token">
                             <thead class="table-dark">
                                 <tr>
@@ -36,7 +35,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
 
     <script type="text/javascript">
