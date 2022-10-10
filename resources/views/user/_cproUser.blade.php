@@ -268,6 +268,7 @@ function cproUserDatatable(){
           
         });
 
+        
 
         $(".modalForm form").on('submit',function(e){
             e.preventDefault();
