@@ -204,7 +204,7 @@ function jnsUserDatatable(){
        // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
         "pageLength": 10,
         "searching":false,
-        "processing": true,
+        "processing": '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>',
         "serverSide": true,
         "ajax": {
           "url": "{{route('jns.user.list')}}",
