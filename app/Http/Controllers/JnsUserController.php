@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class JnsUserController extends Controller
@@ -46,7 +47,7 @@ class JnsUserController extends Controller
         return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="'.route('jns.users.edit',['user'=>$row['id']]).'" data-href="'.route('jns.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm jnsUserEdit">Edit</a> <a href="'.route('jns.user.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white jnsUserDelete">Delete</a>';
+                    $actionBtn = '<a href="'.route('jns.users.edit',['user'=>$row['id']]).'" data-href="'.route('jns.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm jnsUserEdit">Edit</a> <a href="'.route('jns.users.reset-password').'" data-id="'.$row['id'].'" class="delete btn btn-warning btn-sm text-white reset-password">Reset Password</a> <a href="'.route('jns.user.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white jnsUserDelete">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -178,5 +179,22 @@ class JnsUserController extends Controller
         return back()->withInput();
 
         return redirect(route('jns.divisions.index'));
+    }
+
+    public function resetPassword(Request $request){
+  
+        $validator = Validator::make($request->all(),[
+            'old_password' => 'required|min:8',
+            'password' => 'required|confirmed|min:8',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(),500);
+        }
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/user/reset-password';
+        
+        $response = $service->post($url,$request);
+
+       return $response;
     }
 }

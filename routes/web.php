@@ -52,6 +52,7 @@ Route::middleware('authentication')->group(function(){
     
     Route::name('jns.')->prefix('jns')->group(function(){
             Route::get('/users/list',[JnsUserController::class,'list'])->name('user.list');
+            Route::post('/users/reset-password',[JnsUserController::class,'resetPassword'])->name('users.reset-password');
             Route::resource('users', JnsUserController::class);
             
             Route::post('/users/update/{id}',[JnsUserController::class,'update'])->name('user.update');

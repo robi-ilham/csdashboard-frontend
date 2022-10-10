@@ -192,6 +192,8 @@
   </div>
 </div>
 </div>
+@include('user._reset_password');
+
 <script type="text/javascript">
 function jnsUserDatatable(){
     Jnsuser=$('#jns-user-table').DataTable( {
@@ -200,7 +202,7 @@ function jnsUserDatatable(){
        "lengthChange": false,
       //  "paging": true,
        // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
-        "pageLength": 5,
+        "pageLength": 10,
         "searching":false,
         "processing": true,
         "serverSide": true,
@@ -329,6 +331,33 @@ function jnsUserDatatable(){
         });
         }
         
+
+      });
+
+      $("#jns-user-table").on('click','.reset-password',function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        $(".alert.alert-danger").hide();
+        $("#resetPasswordForm form").reset();
+        $("#resetPasswordForm #id").val(id);
+        $("#resetPasswordForm").modal('show');
+        $("#resetPasswordForm form").on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST"
+                    , url: $(this).attr('action')
+                    , data: $(this).serialize()
+                    , error: function(data) {
+                        $.each(data.responseJSON, function(key, value) {
+                            $(".alert.alert-danger").show();
+                            $(".alert.alert-danger").html("<p>"+value+"</p>");
+                        });
+                    }
+                , }).done(function(data, status) {
+                    $("#resetPasswordForm").modal('hide');
+                    Jnsuser.draw();
+                })
+            })
 
       })
       

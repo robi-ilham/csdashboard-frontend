@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="card">
+  <div class="alert alert-success" style="display: none"></div>
     <div class="card-body">
 
 

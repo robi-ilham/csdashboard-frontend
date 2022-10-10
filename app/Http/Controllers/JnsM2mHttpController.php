@@ -75,9 +75,7 @@ class JnsM2mHttpController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(),401);
         }
-        $request->validate([
-            'username'=>'required'
-        ]);
+
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/m2m/user';
         $response = $service->post($url,$request);
