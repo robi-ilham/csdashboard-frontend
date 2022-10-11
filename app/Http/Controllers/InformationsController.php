@@ -186,9 +186,10 @@ class InformationsController extends Controller
         $param=['page'=>$page] ;           
         
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/tokenmap/index-ajax?page='.$page;
+        $url=env('API_URL').'/api/jns/tokenmap/index-ajax';
         $response = $service->get($url,$param);
-        return $response;
+
+        //return $response;
 
         $return = [
             "draw"=>$request->draw,
@@ -198,10 +199,12 @@ class InformationsController extends Controller
             "page"=>$page
         ];
         
-        return $return;
-        return DataTables::of($response)
-                ->addIndexColumn()
-                ->make(true);
+        return json_encode($return);
+        // return DataTables::of($response['data'])
+        //         ->addIndexColumn()
+        //         ->setTotalRecords($response['total'])
+        //         ->setFilteredRecords($response['total'])
+        //         ->make(true);
     }
     public function watemplate(){
         $service = new ServiceRequest();

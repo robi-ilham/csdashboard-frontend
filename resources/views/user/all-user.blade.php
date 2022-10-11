@@ -25,7 +25,7 @@
 
 
             </div>
-            <div class="tab-pane mt-3" id="cpro">@include('user._cproUser').</div>
+            <div class="tab-pane mt-3" id="cpro">@include('user._cproUser')</div>
             <div class="tab-pane mt-3" id="m2m">
               @include('user._m2muser')
             

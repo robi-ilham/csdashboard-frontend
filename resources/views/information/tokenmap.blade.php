@@ -45,7 +45,6 @@
                 <table class="table table-bordered table-striped" id="jns-tokenmap">
                     <thead class="table-dark">
                         <tr>
-                            <th>No</th>
                             <th>Client</th>
                             <th>Division </th>
                             <th>Mask</th>
@@ -88,12 +87,12 @@
         jnsTokenmap = $('#jns-tokenmap').DataTable({
             //"order": [[ 8, "desc" ]],
             // "scrollX": true,
-            "lengthChange": false,
-              "paging": true,
+            "lengthChange": false
+            , "paging": true,
             // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
             "pageLength": 10
             , "searching": true
-            , "processing": true
+            , "processing": '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>'
             , "serverSide": true
             , "ajax": {
                 "url": "{{ route('information.tokenmap.data') }}"
@@ -114,80 +113,92 @@
                     // data.event=event;
                     // data.start_date=start_date;
                     // data.end_date=end_date;
-                },"dataSrc":function(json){
-                    json.recordsTotal = json.total;
-                    json.dataFiltered = json.total;
-                    return json.data;
                 }
+                // , "dataSrc": function(json) {
+                //     json.recordsTotal = json.total;
+                //     json.dataFiltered = json.total;
+                //     return json.data;
+                // }
 
             }
-            , "columns": [{
-                    data: 'DT_RowIndex'
-                    , name: 'DT_RowIndex'
-                }
-                , {
-                    data: 'client.name'
-                    , name: 'client_id'
-                }
-                , {
-                    data: 'division.name'
-                    , name: 'division_id'
-                }
-                , {
-                    data: 'mask.name'
-                    , name: 'mask_id'
-                }
-                , {
-                    data: 'OTP'
-                    , name: 'opt'
-                }
-                , {
-                    data: 'NON OTP'
-                    , name: 'opt'
-                },
+            , "columns": [ {
+                        data: 'client.name'
+                        , name: 'client_id'
+                    }
+                    , {
+                        data: 'division.name'
+                        , name: 'division_id'
+                    }
+                    , {
+                        data: 'mask.name'
+                        , name: 'mask_id'
+                    }
+                    , {
+                        data: 'OTP'
+                        , name: 'opt'
+                    }
+                    , {
+                        data: 'NON OTP'
+                        , name: 'opt'
+                    },
 
-                // {
-                //     data: 'description',
-                //     name: 'description'
-                // },
-                // {
-                //     data: 'expiry',
-                //     name: 'expiry'
-                // },
+                    // {
+                    //     data: 'description',
+                    //     name: 'description'
+                    // },
+                    // {
+                    //     data: 'expiry',
+                    //     name: 'expiry'
+                    // },
 
-                {
-                    data: 'created'
-                    , name: 'created'
-                }
-                , {
-                    data: 'modified'
-                    , name: 'modified'
-                },
-                //   {
-                //     data: 'action', 
-                //     name: 'action', 
-                //     orderable: true, 
-                //     searchable: true
-                // },
+                    {
+                        data: 'created'
+                        , name: 'created'
+                    }
+                    , {
+                        data: 'modified'
+                        , name: 'modified'
+                    },
+                    //   {
+                    //     data: 'action', 
+                    //     name: 'action', 
+                    //     orderable: true, 
+                    //     searchable: true
+                    // },
 
-            ]
-            
+                ]
+
             , "columnDefs": [{
 
-                "targets": [4]
-                , render: function(data, type, row) {
+                    "targets": [3]
+                    , render: function(data, type, row) {
 
-                    if (row.otp == null) {
+                        if (row.otp.length==0) {
 
-                        return 'no';
+                            return 'no';
 
-                    }else{
-                        return 'yes';
+                        } else {
+                            return 'yes';
+                        }
                     }
-                }
 
-            },
-        ]
+                }
+                , {
+
+                    "targets": [4]
+                    , render: function(data, type, row) {
+
+                        if (row.nonotp.length==0) {
+
+                            return 'no';
+
+                        } else {
+                            return 'yes';
+                        }
+                    }
+
+                }
+            ]
 
 
         });

@@ -39,13 +39,30 @@ class JnsUserController extends Controller
 
     public function list(Request $request)
     {
-        
+        $page = ($request->start/10)+1;
+        $param=[
+            'page'=>$page,
+            'username'=>$request->username,
+            'division_id'=>$request->division_id,
+            'client_idd'=>$request->client_id,
+            'group_id'=>$request->group_id
+            ] ; 
+
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user/index-ajax';
-        $data = $service->get($url,$request);
-
-        return DataTables::of($data)
+        $response = $service->get($url,$param);
+        $return = [
+            "draw"=>$request->draw,
+            "recordsTotal"=>$response["total"],
+            "recordsFiltered"=>$response['total'],
+            "data"=>$response["data"],
+            "page"=>$page
+        ];
+        return $return;
+        return DataTables::of($response['data'])
                 ->addIndexColumn()
+                ->setTotalRecords($response['total'])
+                ->setFilteredRecords($response['total'])
                 ->addColumn('action', function($row){
                     $actionBtn = '<a href="'.route('jns.users.edit',['user'=>$row['id']]).'" data-href="'.route('jns.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm jnsUserEdit">Edit</a> <a href="'.route('jns.users.reset-password').'" data-id="'.$row['id'].'" class="delete btn btn-warning btn-sm text-white reset-password">Reset Password</a> <a href="'.route('jns.user.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white jnsUserDelete">Delete</a>';
                     return $actionBtn;
@@ -55,7 +72,6 @@ class JnsUserController extends Controller
 
 
        
-        return $data;
     }
 
     /**

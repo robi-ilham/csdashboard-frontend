@@ -57,6 +57,7 @@
 
                     </tbody>
                    </table>
+                   {{ json_decode(json_encode($data))->links() }}
                 </div>
             </div>
         </div>

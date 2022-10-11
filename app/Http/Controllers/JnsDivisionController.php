@@ -18,7 +18,8 @@ class JnsDivisionController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/division';
         $response = $service->get($url);
-
+        //$response=json_encode($response);
+        //return $response;
         return view('jns.division.index',['data'=>$response]);
     }
 
