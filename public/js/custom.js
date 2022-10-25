@@ -20,8 +20,34 @@
         $.ajax({
             url:page
         }).done(function(res){
+            
             $(modaltarget+" .modal-body").html(res);
             $(modaltarget).modal('show');
+
+            $(modaltarget+" form").on('submit',function(e){
+                e.preventDefault();
+                href = $(this).attr('action');
+                data= $(this).serialize();
+                $.ajax({
+                    url:href,
+                    data:data,
+                    method:"POST",
+                    succes:function(res){
+                        alert(res);
+                    },
+                    error:function(data){
+                        var errs="";
+                        $.each(data.responseJSON.errors, function(key, value) {
+                            console.log(value);
+                            errs+="<p>"+value+"</p>";
+                        });
+                            $(".alert.alert-danger").html(errs);
+                            $(".alert.alert-danger").show();
+
+                    }
+                })
+            })
+
         })
     });
     $("a.ajax-delete").on("click",function(e){

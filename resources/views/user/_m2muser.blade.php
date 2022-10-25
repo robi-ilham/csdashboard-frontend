@@ -73,7 +73,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label" for="group">Client</label>
-                                <select class="form-control" name="client_id">
+                                <select class="form-control" name="client_id" id="client_id">
                                     @foreach ($clients as $client )
                                     <option value="{{$client['id']}}">{{$client['name']}}</option>
                                     @endforeach
@@ -89,7 +89,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label" for="group">Division</label>
-                                <select class="form-control" name="division_id">
+                                <select class="form-control" name="division_id" id="division_id">
                                     @foreach ($divisions as $division )
                                     <option value="{{$division['id']}}">{{$division['name']}}</option>
                                     @endforeach
@@ -133,6 +133,93 @@
                                 <label class="form-label" for="group">&nbsp;</label>
                             </div>
                             <button type="submit" class="btn btn-success text-white">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="view-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">M2M USER</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger" style="display:none"></div>
+                <form method="POST" action="{{ route('m2m.users.store') }}">
+                    @csrf
+                    <input type="hidden" name="id" id="id" value="" />
+                    <div class="row">
+
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Client</label>
+                                <select class="form-control" name="client_id" id="client_id">
+                                    @foreach ($clients as $client )
+                                    <option value="{{$client['id']}}">{{$client['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Api Key</label>
+                                <input class="form-control" id="api_key" type="text" name="api_key" placeholder="API key">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Division</label>
+                                <select class="form-control" name="division_id" id="division_id">
+                                    @foreach ($divisions as $division )
+                                    <option value="{{$division['id']}}">{{$division['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" id="username" type="text" name="username" placeholder="Username">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Access mode</label>
+                                <div>
+                                    <input type="checkbox" name="access_mode[]" value="1"> HTTP <br />
+                                    <input type="checkbox" name="access_mode[]" value="2"> HTTP Alert <br />
+                                    <input type="checkbox" name="access_mode[]" value="4"> OTP <br />
+                                    <input type="checkbox" name="access_mode[]" value="8"> Call <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input class="form-control" id="password" type="text" name="password" placeholder="password">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="expiry">Expiry (Delay time in second)</label>
+                                <input class="form-control" id="expiry" type="text" name="expiry" placeholder="expiry">
+                            </div>
+                            <div class="mb-3">
+                                <input type="checkbox" name="unbillable_access" id="unbillable_access" value="1" placeholder="unbillable access" /> Unbillable Access
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="">
+                                <label class="form-label" for="group">&nbsp;</label>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -232,7 +319,7 @@
                     , error: function(data) {
                         $.each(data.responseJSON, function(key, value) {
                             $(".alert.alert-danger").show();
-                            $(".alert.alert-danger").append("<p>"+value+"</p>");
+                            $(".alert.alert-danger").html("<p>"+value+"</p>");
                         });
                     }
                 , }).done(function(data, status) {
@@ -243,6 +330,32 @@
         });
 
 
+        $("#m2m-user-table").on('click', '.view-data', function(e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+
+            $.ajax({
+                type: "GET"
+                , url: href
+
+            }).done(function(data) {
+
+                $("#view-data form #name").val(data.name).prop("disabled",true);
+                $("#view-data form #username").val(data.username).prop("disabled",true);
+                $("#view-data form #password").val(data.password).prop("disabled",true);
+                $("#view-data form #client_id").val(data.client_id).prop("disabled",true);
+                $("#view-data form #division_id").val(data.division_id).prop("disabled",true);
+                $("#view-data form #api_key").val(data.api_key).prop("disabled",true);
+                $("#view-data form #expiry").val(data.expiry).prop("disabled",true);
+                $("#view-data form #unbillable_access").prop("checked", data.unbillable_access).prop("disabled",true);
+
+                $("#view-data").modal('show');
+
+            });
+
+
+
+        });
         $("#m2m-user-table").on('click', '.m2mUserEdit', function(e) {
             e.preventDefault();
             var href = $(this).attr('href');

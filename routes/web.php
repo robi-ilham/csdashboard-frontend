@@ -45,6 +45,8 @@ Route::name('auth.')->prefix('auth')->group(function(){
 Route::middleware('authentication')->group(function(){
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/users/all', [UserController::class, 'allUserApp'])->name('users.all');
+    Route::get('/users/reset-form/{id}',[UserController::class,'resetForm'])->name('users.resetform');
+    Route::post('/users/reset-password',[UserController::class,'resetPassword'])->name('users.resetpassword');
     Route::resource('users', UserController::class);
     Route::post('/users/update/{id}',[UserController::class,'update'])->name('users.update');
     Route::post('/users/delete/{user}',[UserController::class,'destroy'])->name('users.delete');
@@ -58,6 +60,7 @@ Route::middleware('authentication')->group(function(){
             Route::post('/users/update/{id}',[JnsUserController::class,'update'])->name('user.update');
             Route::post('/users/delete/{user}',[JnsUserController::class,'destroy'])->name('user.delete');
 
+            Route::get('/divisions/list',[JnsDivisionController::class,'list'])->name('division.list');
             Route::resource('divisions', JnsDivisionController::class);
             Route::post('/divisions/update/{id}',[JnsDivisionController::class,'update'])->name('division.update');
             Route::post('/divisions/delete/{division}',[JnsDivisionController::class,'destroy'])->name('division.delete');

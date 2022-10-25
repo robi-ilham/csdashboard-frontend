@@ -19,7 +19,7 @@
     <div class="col-4">
         <div class="mb-3">
             <label class="form-label" for="division">Division</label>
-            <select name="division_id" class="form-control" id="divison_id">
+            <select name="division_id" class="form-control" id="division_id">
                 <option value="">DIvision</option>
                 @foreach ($divisions as $division)
                 <option value="{{$division['id']}}">{{$division['name']}}</option>
@@ -32,7 +32,15 @@
     <div class="col-4">
         <div class="mb-3">
             <label class="form-label" for="status">Status</label>
-            <input class="form-control" id="status" type="text" placeholder="Status">
+            <select name="status" id="status" class="form-control">
+                <option value="new retail">New Retail</option>
+                <option value="new">New</option>
+                <option value="active">Active</option>
+                <option value="blocked">Blocked</option>
+                <option value="disabled">Disabled</option>
+                <option value="waiting approval">Waiting Approval</option>
+                <option value="inactive">inactive</option>
+            </select>
         </div>
     </div>
     <div class="col-4">
@@ -65,6 +73,7 @@
             <th>Username</th>
             <th>client</th>
             <th>group</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -117,8 +126,6 @@
                                     <input class="form-control" name="password_confirmation" type="password" placeholder="Retype Password">
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-6">
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="group">Group</label>
@@ -128,6 +135,9 @@
                                         @endforeach
                                     </select> </div>
                             </div>
+                        </div>
+                        <div class="col-6">
+
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="group">Client</label>
@@ -140,7 +150,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="division">Division</label>
-                                    <select name="division_id" class="form-control" id="divison_id">
+                                    <select name="division_id" class="form-control" id="division_id">
                                         @foreach ($divisions as $division)
                                         <option value="{{$division['id']}}">{{$division['name']}}</option>
                                         @endforeach
@@ -170,6 +180,20 @@
                                             </span>
                                         </span>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="new retail">New Retail</option>
+                                        <option value="new">New</option>
+                                        <option value="active">Active</option>
+                                        <option value="blocked">Blocked</option>
+                                        <option value="disabled">Disabled</option>
+                                        <option value="waiting approval">Waiting Approval</option>
+                                        <option value="inactive">inactive</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -202,6 +226,7 @@
 
 <script type="text/javascript">
     function jnsUserDatatable() {
+        $('#jns-user-table').DataTable().destroy();
         Jnsuser = $('#jns-user-table').DataTable({
 
             "lengthChange": false,
@@ -227,8 +252,7 @@
                 }
 
             }
-            , "columns": [
-                 {
+            , "columns": [{
                     data: 'name'
                     , name: 'name'
                 }
@@ -249,6 +273,10 @@
                     , name: 'group'
                 }
                 , {
+                    data: 'status'
+                    , name: 'status'
+                }
+                , {
                     data: 'action'
                     , name: 'action',
 
@@ -258,7 +286,7 @@
             ]
             , "columnDefs": [{
 
-                "targets": [5]
+                "targets": [6]
                 , render: function(data, type, row) {
                     var urlUpdate = '{{ route("jns.user.update", ["id"=>":userid"]) }}';
                     urlUpdate = urlUpdate.replace(':userid', row.id);
@@ -271,7 +299,7 @@
                     urlDelete = urlDelete.replace(':userid', row.id);
 
 
-                    return '<a href="'+urlEdit+'" data-href="' + urlUpdate + '" data-id="' + row.id + '" class="edit btn btn-success text-white btn-sm jnsUserEdit">Edit</a> <a href="'+urlReset+'" data-id="'+row.id+'" class="delete btn btn-warning btn-sm text-white reset-password">Reset Password</a> <a href="'+urlDelete+'" data-id="'+row.id+'" class="delete btn btn-danger btn-sm text-white jnsUserDelete">Delete</a>'
+                    return '<a href="' + urlEdit + '" data-href="' + urlUpdate + '" data-id="' + row.id + '" class="edit btn btn-success text-white btn-sm jnsUserEdit">Edit</a> <a href="' + urlReset + '" data-id="' + row.id + '" class="delete btn btn-warning btn-sm text-white reset-password">Reset Password</a> <a href="' + urlDelete + '" data-id="' + row.id + '" class="delete btn btn-danger btn-sm text-white jnsUserDelete">Delete</a>'
                 }
 
             }]
@@ -282,8 +310,9 @@
         });
 
         $("#addJnsuser").on('click', function() {
+
             var action = $(this).attr('data-href');
-            $("#JnsUserForm form #id").val("");
+            resetForm();
             $("#JnsUserForm form").attr("action", action)
             $("#JnsUserForm").modal('show');
             $(".modalForm form").on('submit', function(e) {
@@ -292,7 +321,14 @@
                     type: "POST"
                     , url: $(this).attr('action')
                     , data: $(this).serialize()
-                , }).done(function(data) {
+                    , error: function(data) {
+                        $.each(data.responseJSON, function(key, value) {
+                            $(".alert.alert-danger").show();
+                            $(".alert.alert-danger").html("<p>"+value+"</p>");
+                        });
+                    }
+                
+                }).done(function(data) {
                     $(".modalForm").modal('hide');
                     Jnsuser.draw();
                 });
@@ -318,14 +354,14 @@
                 $("#JnsUserForm form #password_confirmation").hide();
                 $("#JnsUserForm form #id").val(data.id);
                 $("#JnsUserForm form #name").val(data.name);
-                $("#JnsUserForm form #username").val(data.username);
+                $("#JnsUserForm form #username").val(data.username).prop("readonly",true);
                 $("#JnsUserForm form #email").val(data.email);
-                $("#JnsUserForm form #id").val(data.id);
-                $("#JnsUserForm form #group_id option:selected").val(data.group_id);
-                $("#JnsUserForm form #client_id").val(data.client_id);
-                $("#JnsUserForm form #division_id").val(data.division_id);
-                $("#JnsUserForm form #expiry_mode_id").val(data.expiry_mode_id);
-                $("#JnsUserForm form #expiry").val(data.expiry);
+                $("#JnsUserForm form #group_id").val(data.group_id).prop("disabled",true);
+                $("#JnsUserForm form #client_id").val(data.client_id).prop("disabled",true);
+                $("#JnsUserForm form #division_id").val(data.division_id).prop("disabled",true);
+                $("#JnsUserForm form #expiry_mode_id").val(data.expiry_mode_id).prop("disabled",true);
+                $("#JnsUserForm form #expiry").val(data.expiry).prop("readonly",true);
+                $("#JnsUserForm form #status").val(data.status);
 
                 $("#JnsUserForm").modal('show');
 
@@ -337,9 +373,17 @@
                 $.ajax({
                     type: "POST"
                     , url: $(this).attr('action')
-                    , data: $(this).serialize()
-                , }).done(function(data) {
+                    , data: $(this).serialize(), 
+                    error: function(data) {
+                        $.each(data.responseJSON, function(key, value) {
+                            $(".alert.alert-danger").show();
+                            $(".alert.alert-danger").html("<p>"+value+"</p>");
+                        });
+                    }
+                
+                }).done(function(data) {
                     $(".modalForm").modal('hide');
+                    resetForm();
                     Jnsuser.draw();
                 });
             })
@@ -395,6 +439,26 @@
             })
 
         })
+
+        function resetForm() {
+
+
+
+            $("#JnsUserForm form #password").show();
+            $("#JnsUserForm form #password_confirmation").show();
+            $("#JnsUserForm form #id").val("");
+            $("#JnsUserForm form #password").val("");
+            $("#JnsUserForm form #password_confirmation").val("");
+            $("#JnsUserForm form #name").val("");
+            $("#JnsUserForm form #username").val("").prop("readonly",false);
+            $("#JnsUserForm form #email").val("");
+            $("#JnsUserForm form #group_id option:selected").val("").prop("disabled",false);
+            $("#JnsUserForm form #client_id").val("").prop("disabled",false);
+            $("#JnsUserForm form #division_id").val("").prop("disabled",false);
+            $("#JnsUserForm form #expiry_mode_id").val("").prop("disabled",false);
+            $("#JnsUserForm form #expiry").val("").prop("readonly",false);
+            $("#JnsUserForm form #status").val("");
+        }
 
     }
 

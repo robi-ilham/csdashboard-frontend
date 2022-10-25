@@ -130,12 +130,14 @@
                   render: function(data, type,row) {
                     var clientList = "";
                     for (let key in row.clients){
+                        if(row.clients[key].client !=null){
                         console.log(row.clients[key].client.name);
                         clientList=clientList+row.clients[key].client.name+"<br/>";
+                        }
                     }
                     return clientList;
                   },
-                  targets: 1
+                  targets: [1]
               }]
           });
 

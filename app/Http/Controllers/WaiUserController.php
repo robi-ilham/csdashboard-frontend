@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\ServiceRequest;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class WaiUserController extends Controller
@@ -22,9 +23,12 @@ class WaiUserController extends Controller
         $clientsUrl=env('API_URL').'/api/jns/clients/all';
         $clients = $service->get($clientsUrl);
 
+        $sendersUrl=env('API_URL').'/api/wai/sender';
+        $senders = $service->get($sendersUrl);
+
        // return $response;
 
-        return view('wai.user.index',['response'=>$response,'clients'=>$clients]);
+        return view('wai.user.index',['response'=>$response,'clients'=>$clients,'senders'=>$senders]);
     }
     public function list(Request $request)
     {
@@ -36,7 +40,7 @@ class WaiUserController extends Controller
         return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="'.route('wai.users.edit',['user'=>$row['id']]).'" data-href="'.route('wai.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm waiUserEdit">Edit</a> <a href="'.route('wai.users.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white waiUserDelete">Delete</a>';
+                    $actionBtn = '<a href="'.route('wai.users.edit',['user'=>$row['id']]).'" data-href="'.route('wai.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="view btn btn-warning text-white btn-sm view-data">View</a> <a href="'.route('wai.users.edit',['user'=>$row['id']]).'" data-href="'.route('wai.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm waiUserEdit">Edit</a> <a href="'.route('wai.users.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white waiUserDelete">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -75,11 +79,18 @@ class WaiUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'username'=>'required|string',
-            'password'=>'required|confirmed|min:8',
+            'password'=>'required|confirmed',
             'name'=>'required',
-    ]);
+            'client_name'=>'required',
+            'client_id'=>'required',
+            'division_id'=>'required',
+
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(),500);
+        }
 
     $service = new ServiceRequest();
     $url=env('API_URL').'/api/wai/user';

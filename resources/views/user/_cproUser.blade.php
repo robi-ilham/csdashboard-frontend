@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="cpro-filter">
     <div class="col-4">
         <div class="mb-3">
             <label class="form-label" for="username">Username</label>
@@ -31,8 +31,8 @@
 <div class="row">
     <div class="col-4">
         <div class="mb-3">
-            <label class="form-label" for="status">Status</label>
-            <input class="form-control" id="status" type="text" placeholder="Status">
+            <label class="form-label" for="sender_id">Sender ID</label>
+            <input class="form-control" id="sender_id" type="text" placeholder="Sender ID">
           </div>
     </div>
     <div class="col-4">
@@ -166,6 +166,7 @@
 </div>
 <script type="text/javascript">
 function cproUserDatatable(){
+  $('#cpro-user-table').DataTable().destroy();
     cproUser=$('#cpro-user-table').DataTable( {
         //"order": [[ 8, "desc" ]],
        // "scrollX": true,
@@ -176,15 +177,14 @@ function cproUserDatatable(){
         "searching":false,
         "processing": true,
         "serverSide": true,
-        "deferRender": true,
         "ajax": {
           "url": "{{route('cpro.users.index')}}",
           "data": function(data){
           // Read values
-          var username = $('#username').val();
-          var group_id = $('#group_id').find(':selected').val();
-          var client_id = $('#client_id').find(':selected').val();
-          var division_id = $('#division_id').find(':selected').val();
+          var username = $('#cpro-filter #username').val();
+          var group_id = $('#cpro-filter  #group_id').find(':selected').val();
+          var client_id = $('#cpro-filter  #client_id').find(':selected').val();
+          var division_id = $('#cpro-filter  #division_id').find(':selected').val();
   
           // Append to data
           data.username = username;

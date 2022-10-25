@@ -34,7 +34,7 @@ class JnsM2mHttpController extends Controller
         return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="'.route('m2m.users.edit',['user'=>$row['id']]).'" data-href="'.route('m2m.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm m2mUserEdit">Edit</a> <a href="'.route('m2m.users.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white m2mUserDelete">Delete</a>';
+                    $actionBtn = '<a href="'.route('m2m.users.edit',['user'=>$row['id']]).'" data-href="'.route('m2m.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="view-data btn btn-warning text-white btn-sm ">View</a> <a href="'.route('m2m.users.edit',['user'=>$row['id']]).'" data-href="'.route('m2m.user.update',['id'=>$row['id']]).'" data-id="'.$row['id'].'" class="edit btn btn-success text-white btn-sm m2mUserEdit">Edit</a> <a href="'.route('m2m.users.delete',['user'=>$row['id']]).'" data-id="'.$row['id'].'" class="delete btn btn-danger btn-sm text-white m2mUserDelete">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -70,7 +70,14 @@ class JnsM2mHttpController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'username'=>'required|string'
+            'username'=>'required|string',
+            'password'=>'required|string',
+            'client_name'=>'required',
+            'client_id'=>'required',
+            'division_id'=>'required',
+            'access_mod'=>'required',
+            'api_key'=>'required',
+            'expiry'=>'required'
         ]);
         if($validator->fails()){
             return response()->json($validator->errors(),401);
@@ -80,7 +87,6 @@ class JnsM2mHttpController extends Controller
         $url=env('API_URL').'/api/m2m/user';
         $response = $service->post($url,$request);
         return back()->withInput();
-        return redirect(route('m2m.users.index'));
     }
 
     /**

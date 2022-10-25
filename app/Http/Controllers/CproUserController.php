@@ -13,15 +13,24 @@ class CproUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $page = ($request->start/10)+1;
+        $params=[
+            'page'=>$page,
+            'username'=>$request->username,
+            'client_id'=>$request->client_id,
+            'division_id'=>$request->division_id,
+            'sender'=>$request->sender_id,
+            'group_id'=>$request->group_id
+        ];
         $service = new ServiceRequest();
         $url = env('API_URL') . '/api/cpro/user';
-        $response = $service->get($url);
-
+        $response = $service->get($url,$params);
+       // return $response;
 
         $return = [
-            'draw' => 1,
+            'draw' => $request->draw,
             'recordstotal' => $response['query-result']['row-count'],
             'recordsFiltered' => $response['query-result']['row-count'],
             'data' => [
@@ -37,6 +46,7 @@ class CproUserController extends Controller
             })
             ->rawColumns(['action'])
             ->setTotalRecords($response['query-result']['row-count'])
+            ->setFilteredRecords($response['query-result']['row-count'])
             ->make(true);
 
 
@@ -131,7 +141,6 @@ class CproUserController extends Controller
         $service = new ServiceRequest();
         $url = env('API_URL') . '/api/cpro/user/' . $id;
         $response = $service->delete($url);
-        return back()->withInput();
-        return redirect(route('wai.users.index'));
+        return $response;
     }
 }

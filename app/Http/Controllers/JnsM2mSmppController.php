@@ -36,7 +36,7 @@ class JnsM2mSmppController extends Controller
         return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="'.route('smpps.users.edit',['user'=>$row['client_id']]).'" data-href="'.route('smpps.user.update',['id'=>$row['client_id']]).'" data-id="'.$row['client_id'].'" class="edit btn btn-success text-white btn-sm smppUserEdit">Edit</a> <a href="'.route('smpps.users.delete',['user'=>$row['client_id']]).'" data-id="'.$row['client_id'].'" class="delete btn btn-danger btn-sm text-white smppUserDelete">Delete</a>';
+                    $actionBtn = '<a href="'.route('smpps.users.edit',['user'=>$row['client_id']]).'" data-href="'.route('smpps.user.update',['id'=>$row['client_id']]).'" data-id="'.$row['client_id'].'" class="view btn btn-warning text-white btn-sm view-data">View</a> <a href="'.route('smpps.users.edit',['user'=>$row['client_id']]).'" data-href="'.route('smpps.user.update',['id'=>$row['client_id']]).'" data-id="'.$row['client_id'].'" class="edit btn btn-success text-white btn-sm smppUserEdit">Edit</a> <a href="'.route('smpps.users.delete',['user'=>$row['client_id']]).'" data-id="'.$row['client_id'].'" class="delete btn btn-danger btn-sm text-white smppUserDelete">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

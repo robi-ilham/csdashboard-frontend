@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Yajra\DataTables\Facades\DataTables;
 
 class JnsDivisionController extends Controller
 {
@@ -16,11 +16,37 @@ class JnsDivisionController extends Controller
     public function index(Request $request)
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/division';
+        $url = env('API_URL') . '/api/jns/division';
         $response = $service->get($url);
+
+        $url = env('API_URL') . '/api/jns/client';
+        $clients = $service->get($url);
         //$response=json_encode($response);
         //return $response;
-        return view('jns.division.index',['data'=>$response]);
+        return view('jns.division.index', ['data' => $response,'clients'=>$clients]);
+    }
+
+    public function list(Request $request)
+    {
+        $page = ($request->start/10)+1;
+        $param=[
+            'page'=>$page,
+            'name'=>$request->name,
+            'client_id'=>$request->client_id,
+           
+            ] ; 
+        $service = new ServiceRequest();
+        $url = env('API_URL') . '/api/jns/division';
+        $response = $service->get($url, $param);
+        // return $response;
+        $return = [
+            "draw" => $request->draw,
+            "recordsTotal" => $response["total"],
+            "recordsFiltered" => $response['total'],
+            "data" => $response["data"],
+            "page" => $page
+        ];
+        return $return;
     }
 
     /**
@@ -31,9 +57,9 @@ class JnsDivisionController extends Controller
     public function create()
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/client';
+        $url = env('API_URL') . '/api/jns/client';
         $clients = $service->get($url);
-        return view('jns.division._form',compact('clients'));
+        return view('jns.division._form', compact('clients'));
     }
 
     /**
@@ -45,14 +71,14 @@ class JnsDivisionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name' => 'required'
         ]);
 
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/division';
-        $response = $service->post($url,$request);
-
-        return redirect(route('jns.divisions.index'));
+        $url = env('API_URL') . '/api/jns/division';
+        $response = $service->post($url, $request);
+        return $response;
+       // return redirect(route('jns.divisions.index'));
     }
 
     /**
@@ -75,12 +101,11 @@ class JnsDivisionController extends Controller
     public function edit($id)
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/client';
-        $clients = $service->get($url);
 
-        $divUrl = env('API_URL').'/api/jns/division/'.$id;
+        $divUrl = env('API_URL') . '/api/jns/division/' . $id;
         $div = $service->get($divUrl);
-        return view('jns.division._edit_form',compact('clients','div','id'));
+
+        return $div;
     }
 
     /**
@@ -93,12 +118,12 @@ class JnsDivisionController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'=>'required'
+            'name' => 'required'
         ]);
 
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/division/'.$id;
-        $response = $service->put($url,$request);
+        $url = env('API_URL') . '/api/jns/division/' . $id;
+        $response = $service->put($url, $request);
 
         return redirect(route('jns.divisions.index'));
     }
@@ -112,9 +137,9 @@ class JnsDivisionController extends Controller
     public function destroy($id)
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/division/'.$id;
+        $url = env('API_URL') . '/api/jns/division/' . $id;
         $response = $service->delete($url);
 
-        return redirect(route('jns.divisions.index'));
+        return $response;
     }
 }

@@ -55,6 +55,7 @@
                             <td>{{ $row['name'] }}</td>
                             <td>{{ $row['email'] }}</td>
                             <td>
+                                <a href="{{route('users.resetform',['id'=>$row['id']])}}" target-modal="#userForm" class="btn btn-success btn-sm text-white update-modal-form">Reset Password</a>
                                 <a href="{{route('users.edit',['user'=>$row['id']])}}" target-modal="#userForm" class="btn btn-warning btn-sm text-white update-modal-form">Edit</a>
                                 <a href="{{route('users.delete',['user'=>$row['id']])}}" class="btn btn-danger btn-sm text-white ajax-delete">Delete</a> 
                             </td>

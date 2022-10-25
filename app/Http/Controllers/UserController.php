@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -26,8 +27,11 @@ class UserController extends Controller
 
         $urlClient=env('API_URL').'/api/jns/clients/all';
         $clients = $service->get($urlClient);
+
+        $sendersUrl=env('API_URL').'/api/wai/sender';
+        $senders = $service->get($sendersUrl);
        /// dd($response);
-        return view('user.all-user',compact('data','divisions','groups','clients')); 
+        return view('user.all-user',compact('data','divisions','groups','clients','senders')); 
 
     }
     public function index()
@@ -58,6 +62,34 @@ class UserController extends Controller
         return view('user._form_new');
     }
 
+    public function resetForm($id)
+    {
+        return view('user._reset_password_cstools',compact('id'));
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password'=>'required',
+            'password'=>[
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+            ],
+        ]);
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/user/reset-password';
+        $response = $service->post($url,$request);
+        
+        return $response;
+       // return view('user._reset_password',compact('id'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -67,9 +99,18 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username'=>'name',
+            'username'=>'required',
             'email'=>'required',
-            'password'=>'required|confirmed'
+            'password'=>[
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+            ],
         ]);
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/user';
@@ -117,7 +158,17 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'password'=>[
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+            ],
         ]);
 
         $service = new ServiceRequest();
