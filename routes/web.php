@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CproAuditTrailController;
 use App\Http\Controllers\CproClient;
 use App\Http\Controllers\CproDivisionController;
 use App\Http\Controllers\CproSenderController;
 use App\Http\Controllers\CproUserController;
+use App\Http\Controllers\CstoolsInformationController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\JnsClientController;
 use App\Http\Controllers\JnsDivisionController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\ReportCproController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserCproController;
 use App\Http\Controllers\WaiUserController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,14 +46,24 @@ Route::name('auth.')->prefix('auth')->group(function(){
 });
 
 Route::middleware('authentication')->group(function(){
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [AlertController::class, 'index'])->name('home');
     Route::get('/users/all', [UserController::class, 'allUserApp'])->name('users.all');
     Route::get('/users/reset-form/{id}',[UserController::class,'resetForm'])->name('users.resetform');
     Route::post('/users/reset-password',[UserController::class,'resetPassword'])->name('users.resetpassword');
-    Route::resource('users', UserController::class);
-    Route::post('/users/update/{id}',[UserController::class,'update'])->name('users.update');
-    Route::post('/users/delete/{user}',[UserController::class,'destroy'])->name('users.delete');
 
+    Route::get('/users/list',[UserController::class,'list'])->name('users.list');
+    Route::post('/users/update/{id}',[UserController::class,'update'])->name('user.update');
+    Route::post('/users/delete/{user}',[UserController::class,'destroy'])->name('users.delete');
+    Route::resource('users', UserController::class);
+
+    Route::get('/alerts/list',[AlertController::class,'list'])->name('alerts.list');
+    Route::resource('alerts', AlertController::class);
+
+
+    Route::get('/cstools-informations/list',[CstoolsInformationController::class,'list'])->name('cstools-informations.list');
+    Route::post('/cstools-informations/update/{id}',[CstoolsInformationController::class,'update'])->name('cstools-information.update');
+    Route::post('/cstools-informations/delete/{id}',[CstoolsInformationController::class,'destroy'])->name('cstools-informations.delete');
+    Route::resource('cstools-informations', CstoolsInformationController::class);
     
     Route::name('jns.')->prefix('jns')->group(function(){
             Route::get('/users/list',[JnsUserController::class,'list'])->name('user.list');
@@ -98,7 +111,13 @@ Route::middleware('authentication')->group(function(){
             Route::post('/divisions/delete/{division}',[CproDivisionController::class,'destroy'])->name('division.delete');
             
         Route::resource('clients', CproClient::class);
+
+        Route::get('/senders/list',[CproSenderController::class,'list'])->name('senders.list');
         Route::resource('senders', CproSenderController::class);
+
+        Route::get('/webhooks/list',[WebhookController::class,'list'])->name('webhook.list');
+        Route::resource('webhooks', WebhookController::class);
+
         Route::resource('audittrails', CproAuditTrailController::class);
     });
     Route::name('information.')->prefix('information')->group(function(){
@@ -131,6 +150,9 @@ Route::middleware('authentication')->group(function(){
 
         Route::get('watemplate',[InformationsController::class,'watemplate'])->name('watemplate');
         Route::get('watemplate/data',[InformationsController::class,'watemplateData'])->name('watemplate.data');
+
+        Route::get('client',[InformationsController::class,'client'])->name('client');
+        Route::get('client/data',[InformationsController::class,'clientData'])->name('client.data');
     });
 
     Route::name('report.')->prefix('report')->group(function(){

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Service\ServiceRequest;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class CproSenderController extends Controller
+class AlertController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,27 +15,20 @@ class CproSenderController extends Controller
      */
     public function index()
     {
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/cpro/division/index-api';
-        $divisions = $service->get($url);
-        // $divisions = json_encode($divisions["query-result"]["data"]);
-
-        // return $divisions;
-        return view('cpro.sender.index',compact('divisions'));
+        return view('alert.index');
     }
+
     public function list(Request $request)
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/cpro/sender';
-        $response = $service->get($url,$request);
-
-      // return $response;
-       return DataTables::of($response['Data'])
-                ->addIndexColumn()
-                ->make(true);
-
-      //  return view('cpro.sender.index',compact('response'));
+        $url = env('API_URL') . '/api/alert';
+        $data = $service->get($url,$request);
+      //  return $data;
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->make(true);
     }
+
     /**
      * Show the form for creating a new resource.
      *

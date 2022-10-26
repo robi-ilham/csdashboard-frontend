@@ -15,7 +15,7 @@
             <li class="nav-item"><a data-bs-toggle="tab" data-target="#cpro" href="#m2m" class="nav-link" data-url="{{route('m2m.users.index')}}">M2M/HTTP</a></li>
             <li class="nav-item"><a data-bs-toggle="tab" data-target="#cpro" href="#smpp" class="nav-link" data-url="{{route('smpps.users.index')}}">SMPP </a></li>
             <li  class="nav-item"><a data-bs-toggle="tab" data-target="#cpro" href="#wai" class="nav-link" data-url="{{route('wai.users.index')}}">WAI</a></li>
-            <li class="nav-item "><a data-bs-toggle="tab" data-target="#jns" href="#cstools"  class="nav-link" data-url="{{route('users.index')}}">CS TOOLS</a></li>
+            <li class="nav-item "><a data-bs-toggle="tab" data-target="#cstools" href="#cstools"  class="nav-link" data-url="{{route('users.index')}}">CS TOOLS</a></li>
           </ul>
           
           <div class="tab-content">
@@ -34,7 +34,7 @@
               @include('user._smppuser')
             </div>
             <div class="tab-pane mt-3" id="wai">@include('user._waiuser')</div>
-            <div class="tab-pane   mt-3" id="cstools">loading data jns..</div>
+            <div class="tab-pane   mt-3" id="cstools">@include('user._cstoolsuser').</div>
           </div>
         </div>
     </div>
@@ -71,10 +71,8 @@ $(function() {
   }else if(lastTab=="#cpro"){
     cproUserDatatable();
   }
-  else{
-    $(lastTab).load(url+" .body",function(result){
-      tablecrud();
-    });
+  else if(lastTab=="#cstools"){
+    cstoolsDataTable();
   }
   
   // 
@@ -102,11 +100,10 @@ $('#myTabs a').click(function (e) {
     waiUserDatatable();
   }else if(href=="#cpro"){
     cproUserDatatable();
-  }else{
-    $(href).load(url+" .body",function(result){
-    tablecrud();
-  });
+  }else if(href=="#cstools"){
+    cstoolsDataTable();
   }
+  
 	// 
   // m2mUserDatatable();
 });

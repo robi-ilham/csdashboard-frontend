@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Service\ServiceRequest;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class CproSenderController extends Controller
+class WebhookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,26 +16,27 @@ class CproSenderController extends Controller
     public function index()
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/cpro/division/index-api';
-        $divisions = $service->get($url);
-        // $divisions = json_encode($divisions["query-result"]["data"]);
+        $clientsUrl=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($clientsUrl);
 
-        // return $divisions;
-        return view('cpro.sender.index',compact('divisions'));
+        $divisionUrl=env('API_URL').'/api/jns/divisions/all';
+        $divisions=$service->get($divisionUrl);
+
+        return view('webhook.index',compact('clients','divisions'));
     }
-    public function list(Request $request)
+
+    public function list()
     {
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/cpro/sender';
-        $response = $service->get($url,$request);
+        $url=env('API_URL').'/api/wai/webhook';
+        $response = $service->get($url);
 
-      // return $response;
-       return DataTables::of($response['Data'])
-                ->addIndexColumn()
-                ->make(true);
+        return DataTables::of($response)
+        ->addIndexColumn()
+        ->make(true);
 
-      //  return view('cpro.sender.index',compact('response'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -43,7 +44,7 @@ class CproSenderController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

@@ -8,7 +8,31 @@
                 <div class="card-header">PRIVILEGE JNS</div>
 
                 <div class="card-body">
-                    
+                    <div id="searchJnsPrivilege">
+ 
+                            <div class="row">
+    
+    
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="user">Type</label>
+                                        <select name="privilege_type_id" class="form-control" id="privilege_type_id">
+                                            <option value=""></option>
+                                            @foreach ($type as $t )
+                                            <option value="{{$t['id']}}">{{$t['name']}}</option>
+                                            @endforeach
+                                            
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-3">
+                                        <button type="submit" class="btn btn-success text-white" id="btnSearchPrivilege">Search</button>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
                    <table class="table table-bordered table-striped" id="jns-privilege">
                     <thead class="table-dark">
                         <tr>
@@ -35,10 +59,6 @@
   
 <script type="text/javascript">
   $(function() {
-      $('#end_date,#start_date').datepicker({
-          format: 'yyyy-mm-dd',
-      });
-
 
 
 
@@ -49,28 +69,19 @@
           //  "paging": true,
           // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
           "pageLength": 20,
-          "searching": true,
+          "searching": false,
           "processing": true,
           "serverSide": true,
           "ajax": {
               "url": "{{ route('information.privilege.data') }}",
               "data": function(data) {
                   // Read values
-                  var model = $('#searchJnsAudit #model').val();
-                  var client_id = $('#searchJnsAudit #client_id').find(':selected').val();
-                  var division_id = $('#m2mUssearchJnsAuditerSearchForm #division_id').find(
-                      ':selected').val();
-                  var event = $('#searchJnsAudit #event').val();
-                  var start_date = $('#searchJnsAudit #start_date').val();
-                  var end_date = $('#searchJnsAudit #end_date').val();
+                  var privilege = $('#searchJnsPrivilege #privilege').val();
+                  
 
                   // Append to data
-                  data.model = model;
-                  data.client_id = client_id;
-                  data.division_id = division_id;
-                  data.event=event;
-                  data.start_date=start_date;
-                  data.end_date=end_date;
+                  data.privilege = privilege;
+                  
               }
 
           },
@@ -118,9 +129,9 @@
           
       });
 
-      $('#btnSearchPrefix').on('click', function(e) {
+      $('#btnSearchPrivilege').on('click', function(e) {
           e.preventDefault();
-          jnsPrefix.draw();
+          jnsPrivilege.draw();
       });
   });
 </script>

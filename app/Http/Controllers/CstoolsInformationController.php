@@ -6,49 +6,35 @@ use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class JnsDivisionController extends Controller
+class CstoolsInformationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division';
-        $response = $service->get($url);
 
-        $url = env('API_URL') . '/api/jns/client';
-        $clients = $service->get($url);
-        //$response=json_encode($response);
-        //return $clients;
-        return view('jns.division.index', ['data' => $response,'clients'=>$clients]);
+        /// dd($response);
+        return view('cstools-information.index');
     }
 
     public function list(Request $request)
     {
-        $page = ($request->start/10)+1;
-        $param=[
-            'page'=>$page,
-            'name'=>$request->name,
-            'client_id'=>$request->client_id,
-           
-            ] ; 
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division';
-        $response = $service->get($url, $param);
-        // return $response;
-        $return = [
-            "draw" => $request->draw,
-            "recordsTotal" => $response["total"],
-            "recordsFiltered" => $response['total'],
-            "data" => $response["data"],
-            "page" => $page
-        ];
-        return $return;
+        $url = env('API_URL') . '/api/information';
+        $data = $service->get($url,$request);
+        
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $actionBtn = '<a href="' . route('cstools-informations.edit', ['cstools_information' => $row['id']]) . '" data-href="' . route('cstools-information.update', ['id' => $row['id']]) . '" data-id="' . $row['id'] . '" class="edit btn btn-success text-white btn-sm infoEdit">Edit</a> <a href="' . route('cstools-informations.delete', ['id' => $row['id']]) . '" data-id="' . $row['id'] . '" class="delete btn btn-danger btn-sm text-white infoDelete">Delete</a>';
+                return $actionBtn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -56,10 +42,7 @@ class JnsDivisionController extends Controller
      */
     public function create()
     {
-        $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/client';
-        $clients = $service->get($url);
-        return view('jns.division._form', compact('clients'));
+        //
     }
 
     /**
@@ -71,14 +54,15 @@ class JnsDivisionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'information' => 'required',
+            
         ]);
-
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division';
+        $url = env('API_URL') . '/api/information';
         $response = $service->post($url, $request);
+
         return $response;
-       // return redirect(route('jns.divisions.index'));
     }
 
     /**
@@ -89,7 +73,7 @@ class JnsDivisionController extends Controller
      */
     public function show($id)
     {
-        echo 'show';
+        //
     }
 
     /**
@@ -102,10 +86,10 @@ class JnsDivisionController extends Controller
     {
         $service = new ServiceRequest();
 
-        $divUrl = env('API_URL') . '/api/jns/division/' . $id;
-        $div = $service->get($divUrl);
 
-        return $div;
+        $userUrl = env('API_URL') . '/api/information/' . $id;
+        $data = $service->get($userUrl);
+        return $data;
     }
 
     /**
@@ -118,14 +102,16 @@ class JnsDivisionController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'information'=>'required'
+            
         ]);
 
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division/' . $id;
+        $url = env('API_URL') . '/api/information/' . $id;
         $response = $service->put($url, $request);
 
-        return redirect(route('jns.divisions.index'));
+        return $response;
     }
 
     /**
@@ -137,7 +123,7 @@ class JnsDivisionController extends Controller
     public function destroy($id)
     {
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division/' . $id;
+        $url = env('API_URL') . '/api/information/' . $id;
         $response = $service->delete($url);
 
         return $response;

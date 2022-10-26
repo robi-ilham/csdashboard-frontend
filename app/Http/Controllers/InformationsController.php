@@ -79,8 +79,11 @@ class InformationsController extends Controller
 
         $urlClient=env('API_URL').'/api/jns/clients/all';
         $clients = $service->get($urlClient);
+
+        $urlCat=env('API_URL').'/api/jns/drcategory';
+        $categories = $service->get($urlCat);
         //dd($response);
-        return view('information.drlist',compact('response','clients','groups','divisions'));
+        return view('information.drlist',compact('response','clients','groups','divisions','categories'));
     }
 
     public function drlistData(Request $request){
@@ -134,26 +137,35 @@ class InformationsController extends Controller
 
     public function privilege(){
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/privilege';
-        $response = $service->get($url);
+        $url=env('API_URL').'/api/jns/privilegetype';
+        $type = $service->get($url);
         //dd($response);
-        return view('information.privilege',compact('response'));
+        return view('information.privilege',compact('type'));
     }
 
     public function privilegeData(Request $request){
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/privilege/index-ajax';
         $response = $service->get($url,$request);
+       // return $response;
         return DataTables::of($response)
                 ->addIndexColumn()
                 ->make(true);
     }
     public function tokenbalance(){
+
         $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/tokenbalance';
-        $response = $service->get($url);
+        $urlDiv=env('API_URL').'/api/jns/divisions/all';
+        $divisions = $service->get($urlDiv);
+
+        $urlGroup=env('API_URL').'/api/jns/group';
+        $groups = $service->get($urlGroup);
+
+        $urlClient=env('API_URL').'/api/jns/clients/all';
+        $clients = $service->get($urlClient);
+
         //dd($response);
-        return view('information.tokenbalance',compact('response'));
+        return view('information.tokenbalance',compact('divisions','clients'));
     }
     public function tokenbalanceData(Request $request){
         $service = new ServiceRequest();
@@ -183,7 +195,13 @@ class InformationsController extends Controller
     public function tokenmapData(Request $request){
        
         $page = ($request->start/10)+1;
-        $param=['page'=>$page] ;           
+        $param=[
+            'page'=>$page,
+            'client_id'=>$request->client_id,
+            'division_id'=>$request->division_id,
+            'account_no'=>$request->account_no,
+            'charge_code'=>$request->charge_code
+        ] ;           
         
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/tokenmap/index-ajax';
@@ -218,6 +236,21 @@ class InformationsController extends Controller
         $url=env('API_URL').'/api/jns/watemplate/index-ajax';
         $response = $service->get($url,$request);
         //dd($response);
+        return DataTables::of($response)
+                ->addIndexColumn()
+                ->make(true);
+    }
+    public function client(){
+        $service = new ServiceRequest();
+        $urlDiv=env('API_URL').'/api/jns/divisions/all';
+        $divisions = $service->get($urlDiv);
+        //dd($response);
+        return view('information.client',compact('divisions'));
+    }
+    public function clientData(Request $request){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/client';
+        $response = $service->get($url,$request);
         return DataTables::of($response)
                 ->addIndexColumn()
                 ->make(true);

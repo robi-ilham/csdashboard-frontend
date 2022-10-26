@@ -7,7 +7,37 @@
                     <div class="card-header">TOKEN BALANCE JNS</div>
 
                     <div class="card-body">
-                       
+                       <div class="row" id="balanceForm">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Client</label>
+                                <select name="client_id" class="form-control" id="client_id">
+                                    <option value="">All</option>
+
+                                    @foreach ($clients as $client)
+                                    <option value="{{ $client['id'] }}">{{ $client['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Division</label>
+                                <select name="divison_id" class="form-control" id="divison_id">
+                                    <option value=""></option>
+                                    
+                                    <option value="0">All Division</option>
+
+                                    @foreach ($divisions as $division)
+                                    <option value="{{ $division['id'] }}">{{ $division['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-success" id="btnBalanceSearch">Search</button>
+                        </div>
+                       </div>
                         <table class="table table-bordered table-striped" id="jns-token">
                             <thead class="table-dark">
                                 <tr>
@@ -46,14 +76,14 @@
 
 
 
-            jnsPrivilege = $('#jns-token').DataTable({
+            jnstoken = $('#jns-token').DataTable({
                 //"order": [[ 8, "desc" ]],
                 // "scrollX": true,
                 "lengthChange": false,
                 //  "paging": true,
                 // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
                 "pageLength": 20,
-                "searching": true,
+                "searching": false,
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
@@ -61,20 +91,18 @@
                     "data": function(data) {
                         // Read values
                         // var model = $('#searchJnsAudit #model').val();
-                        // var client_id = $('#searchJnsAudit #client_id').find(':selected').val();
-                        // var division_id = $('#m2mUssearchJnsAuditerSearchForm #division_id').find(
-                        //     ':selected').val();
-                        // var event = $('#searchJnsAudit #event').val();
-                        // var start_date = $('#searchJnsAudit #start_date').val();
-                        // var end_date = $('#searchJnsAudit #end_date').val();
+                        var client_id = $('#balanceForm #client_id').find(':selected').val();
+                        var division_id = $('#balanceForm #division_id').find(
+                            ':selected').val();
+                        var sender = $('#balanceForm #sender').val();
+                        
 
                         // // Append to data
                         // data.model = model;
-                        // data.client_id = client_id;
-                        // data.division_id = division_id;
-                        // data.event=event;
-                        // data.start_date=start_date;
-                        // data.end_date=end_date;
+                        data.client_id = client_id;
+                        data.division_id = division_id;
+                        data.sender=sender;
+                        
                     }
 
                 },
@@ -179,9 +207,9 @@
 
             });
 
-            $('#btnSearchPrefix').on('click', function(e) {
+            $('#btnBalanceSearch').on('click', function(e) {
                 e.preventDefault();
-                jnsPrefix.draw();
+                jnstoken.draw();
             });
         });
     </script>

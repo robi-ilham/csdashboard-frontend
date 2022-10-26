@@ -13,7 +13,7 @@
                             <div class="row">
 
 
-                                {{-- <div class="col-6">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label" for="division">Division</label>
                                         <select name="division_id" class="form-control" id="divison">
@@ -35,7 +35,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label" for="group">Event Audit</label>

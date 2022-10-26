@@ -22,8 +22,9 @@ class CproUserController extends Controller
             'client_id'=>$request->client_id,
             'division_id'=>$request->division_id,
             'sender'=>$request->sender_id,
-            'group_id'=>$request->group_id
+            'privilege_id'=>$request->privilege_id
         ];
+        //return $params;
         $service = new ServiceRequest();
         $url = env('API_URL') . '/api/cpro/user';
         $response = $service->get($url,$params);
@@ -33,24 +34,13 @@ class CproUserController extends Controller
             'draw' => $request->draw,
             'recordstotal' => $response['query-result']['row-count'],
             'recordsFiltered' => $response['query-result']['row-count'],
-            'data' => [
-                $response['query-result']['data']
-            ]
+            'data' => $response['query-result']['data']
+            
         ];
-      //  return json_encode($return);
-        return DataTables::of($response['query-result']['data'])
-            ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                $actionBtn = ' <a href="' . route('cpro.users.delete', ['user' => $row['username']]) . '" data-id="' . $row['username'] . '" class="delete btn btn-danger btn-sm text-white cproUserDelete">Delete</a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['action'])
-            ->setTotalRecords($response['query-result']['row-count'])
-            ->setFilteredRecords($response['query-result']['row-count'])
-            ->make(true);
 
-
-        return view('cpro.user.index', compact('response'));
+     
+        return $return;
+     
     }
     public function list(Request $request)
     {
@@ -88,6 +78,7 @@ class CproUserController extends Controller
      */
     public function store(Request $request)
     {
+       // return $request;
         $service = new ServiceRequest();
         $url = env('API_URL') . '/api/cpro/user';
         $response = $service->post($url, $request);

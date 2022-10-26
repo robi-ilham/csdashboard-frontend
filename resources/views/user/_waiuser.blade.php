@@ -154,7 +154,7 @@
                                 <label class="form-label" for="username">Sender</label>
                                 <select class="form-control" name="sender_id">
                                     @foreach ($senders as $sender )
-                                    <option value="{{$sender['sender_id']}}">{{$division['sender']}}</option>
+                                    <option value="{{$sender['sender_id']}}">{{$sender['sender']}}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -22,7 +22,7 @@
                                             <label class="form-label" for="group">Client</label>
                                             <select class="form-control" id="client_id" name="client_id">
                                                 <option value="">ALL </option>
-                                                @foreach ($clients['data'] as $client )
+                                                @foreach ($clients as $client )
                                                     <option value="<?=$client['id']?>" ><?=$client['name']?></option>
                                                 @endforeach
                                             </select>                                        </div>
@@ -86,7 +86,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="group">Client</label>
                                 <select class="form-control" id="client_id" name="client_id">
-                                    @foreach ($clients['data'] as $client )
+                                    @foreach ($clients as $client )
                                         <option value="<?=$client['id']?>" ><?=$client['name']?></option>
                                     @endforeach
                                 </select>

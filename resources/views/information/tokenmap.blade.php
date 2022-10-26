@@ -8,13 +8,12 @@
 
             <div class="card-body">
                 <div id="searchTokenMap">
-                    <form method="GET" action="{{ route('jns.users.index') }}">
-                        @csrf
+                    <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label" for="group">Client</label>
                                 <select name="client_id" class="form-control" id="client_id">
-                                    <option value="">Division</option>
+                                    <option value=""></option>
 
                                     @foreach ($clients as $client)
                                     <option value="{{ $client['id'] }}">{{ $client['name'] }}</option>
@@ -25,7 +24,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label" for="group">Division</label>
-                                <select name="client_id" class="form-control" id="client_id">
+                                <select name="division_id" class="form-control" id="division_id">
                                     <option value="">division</option>
 
                                     @foreach ($divisions as $division)
@@ -34,13 +33,25 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Account</label>
+                                <input type="text" class="form-control" id="account_no" name="account_no">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Charge Code</label>
+                                <input type="text" class="form-control" id="charge_code" name="charge_code">
+                            </div>
+                        </div>
 
                         <div class="row mb-3">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success text-white" id="btnSearchTokenMap">Search</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <table class="table table-bordered table-striped" id="jns-tokenmap">
                     <thead class="table-dark">
@@ -99,26 +110,21 @@
                 , "data": function(data) {
                     // Read values
                     // var model = $('#searchJnsAudit #model').val();
-                    // var client_id = $('#searchJnsAudit #client_id').find(':selected').val();
-                    // var division_id = $('#m2mUssearchJnsAuditerSearchForm #division_id').find(
-                    //     ':selected').val();
-                    // var event = $('#searchJnsAudit #event').val();
-                    // var start_date = $('#searchJnsAudit #start_date').val();
+                    var client_id = $('#searchTokenMap #client_id').find(':selected').val();
+                    var division_id = $('#searchTokenMap #division_id').find(
+                        ':selected').val();
+                    var account_no = $('#searchTokenMap #account_no').val();
+                    var charge_code = $('#searchTokenMap #charge_code').val();
                     // var end_date = $('#searchJnsAudit #end_date').val();
 
                     // // Append to data
                     // data.model = model;
-                    // data.client_id = client_id;
-                    // data.division_id = division_id;
-                    // data.event=event;
-                    // data.start_date=start_date;
-                    // data.end_date=end_date;
+                    data.client_id = client_id;
+                    data.division_id = division_id;
+                    data.account_no=account_no;
+                    data.charge_code=charge_code;
                 }
-                // , "dataSrc": function(json) {
-                //     json.recordsTotal = json.total;
-                //     json.dataFiltered = json.total;
-                //     return json.data;
-                // }
+          
 
             }
             , "columns": [ {
@@ -203,9 +209,9 @@
 
         });
 
-        $('#btnSearchPrefix').on('click', function(e) {
+        $('#btnSearchTokenMap').on('click', function(e) {
             e.preventDefault();
-            jnsPrefix.draw();
+            jnsTokenmap.draw();
         });
     });
 

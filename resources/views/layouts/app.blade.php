@@ -36,10 +36,14 @@
         CS TOOLS
       </div>
       <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-        <li class="nav-item"><a class="nav-link" href="index.html">
+        <li class="nav-item"><a class="nav-link" href="{{route('home')}}">
             <svg class="nav-icon">
               <use xlink:href="{{ asset('/vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
-            </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+            </svg> Alert</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cstools-informations.index')}}">
+              <svg class="nav-icon">
+                <use xlink:href="{{ asset('/vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
+              </svg> Cstools Information</a></li>
         <li class="nav-item"><a class="nav-link" href="{{route('users.all')}}">
             <svg class="nav-icon">
               <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
@@ -102,12 +106,14 @@
           <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
         </svg> INFORMATIONS</a>
       <ul class="nav-group-items">
+        <li class="nav-item"><a class="nav-link" href="{{route('information.client')}}"><span class="nav-icon"></span> Client</a></li>
         <li class="nav-item"><a class="nav-link" href="{{route('information.audittrail')}}"><span class="nav-icon"></span> Audit Trail</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.invalidwording')}}"><span class="nav-icon"></span> Invalid Wording</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.blacklist')}}"><span class="nav-icon"></span> Black List</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.drlist')}}"><span class="nav-icon"></span> DR List</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.masking')}}"><span class="nav-icon"></span> Masking</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.prefix')}}"><span class="nav-icon"></span> Prefix</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('information.privilege')}}"><span class="nav-icon"></span> Privilege</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenbalance')}}"><span class="nav-icon"></span> Token Balance</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenmap')}}"><span class="nav-icon"></span> Token Map</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.watemplate')}}"><span class="nav-icon"></span> WA Template</a></li>
@@ -115,10 +121,11 @@
           <li class="nav-item"><a class="nav-link" href="{{route('cpro.audittrails.index')}}"><span class="nav-icon"></span> CPRO Audit Trail</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('cpro.senders.index')}}"><span class="nav-icon"></span> CPRO Sender</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('cpro.clients.index')}}"><span class="nav-icon"></span> CPRO CLient</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('cpro.webhooks.index')}}"><span class="nav-icon"></span> Webhook</a></li>
      
       </ul>
     </li>
-    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+    {{-- <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
       <svg class="nav-icon">
         <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
       </svg> Report</a>
@@ -129,7 +136,7 @@
        
    
     </ul>
-  </li>
+  </li> --}}
         
       </ul>
     </div>

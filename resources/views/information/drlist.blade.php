@@ -10,11 +10,12 @@
                 <div id="searchJnsDrlist">
                     <form method="GET" action="{{ route('jns.users.index') }}">
                         @csrf
+                        <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label" for="group">Client</label>
                                 <select name="client_id" class="form-control" id="client_id">
-                                    <option value="">Division</option>
+                                    <option value="">All</option>
 
                                     @foreach ($clients as $client)
                                     <option value="{{ $client['id'] }}">{{ $client['name'] }}</option>
@@ -26,7 +27,9 @@
                             <div class="mb-3">
                                 <label class="form-label" for="group">Division</label>
                                 <select name="divison_id" class="form-control" id="divison_id">
-                                    <option value="">Division</option>
+                                    <option value=""></option>
+                                    
+                                    <option value="0">All Division</option>
 
                                     @foreach ($divisions as $division)
                                     <option value="{{ $division['id'] }}">{{ $division['name'] }}</option>
@@ -35,6 +38,30 @@
                             </div>
                         </div>
 
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">category</label>
+                                <select name="drpush_category_id" class="form-control" id="drpush_category_id">
+                                    <option value="">All</option>
+
+                                    @foreach ($categories as $cat)
+                                    <option value="{{ $cat['id'] }}">{{ $cat['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="group">Type</label>
+                                <select name="type" class="form-control" id="type">
+                                    <option value=""></option>
+
+                                    <option value="1">Push</option>
+                                    <option value="2">Real Push</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                         <div class="row mb-3">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success text-white" id="btnSearchDrlist">Search</button>
@@ -94,12 +121,18 @@
             , "ajax": {
                 "url": "{{ route('information.drlist.data') }}"
                 , "data": function(data) {
-                    // // Read values
-                    // var invalid_regex = $('#invalidForm #invalid_regex').val();
+                    // Read values
+                    var drpush_category_id = $('#searchJnsDrlist #drpush_category_id').val();
+                    var division_id = $('#searchJnsDrlist #division_id').val();
+                    var client_id = $('#searchJnsDrlist #client_id').val();
+                    var type = $('#searchJnsDrlist #type').val();
 
 
-                    // // Append to data
-                    // data.invalid_regex = invalid_regex;
+                    // Append to data
+                    data.drpush_category_id = drpush_category_id;
+                    data.client_id=client_id;
+                    data.division_id=division_id;
+                    data.type=type;
 
                 }
 
