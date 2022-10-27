@@ -40,7 +40,7 @@ class UserController extends Controller
         $urlPrivilege = env('API_URL') . '/api/jns/privilegetype';
         $privileges = $service->get($urlPrivilege);
 
-      //   return $senders;
+         return $senders;
         return view('user.all-user', compact('data', 'divisions', 'groups', 'clients', 'senders', 'cproSenders', 'privileges'));
     }
     public function index()
