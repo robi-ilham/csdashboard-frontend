@@ -312,7 +312,7 @@
             "lengthChange": false,
             //  "paging": true,
             // "lengthMenu": [[ 5, 15, 25, 100, -1 ], [ 5, 15, 25, 100, "All" ]],
-            "pageLength": 5
+            "pageLength": 10
             , "searching": false
             , "processing": true
             , "serverSide": true
