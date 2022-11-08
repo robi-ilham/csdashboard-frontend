@@ -19,24 +19,24 @@ class JnsDivisionController extends Controller
         $url = env('API_URL') . '/api/jns/division';
         $response = $service->get($url);
 
-        $url = env('API_URL') . '/api/jns/client';
-        $clients = $service->get($url);
-        //$response=json_encode($response);
-        //return $clients;
-        return view('jns.division.index', ['data' => $response,'clients'=>$clients]);
+        // $url = env('API_URL') . '/api/pct/client/all';
+        // $clients = $service->get($url);
+        // //$response=json_encode($response);
+        // return $clients;
+        return view('jns.division.index', ['data' => $response]);
     }
 
     public function list(Request $request)
     {
+        //return $request;
         $page = ($request->start/10)+1;
         $param=[
             'page'=>$page,
-            'name'=>$request->name,
-            'client_id'=>$request->client_id,
-           
+            'division_name'=>$request->division_name,
+            'client_id'=>$request->client_id,      
             ] ; 
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division';
+        $url = env('API_URL') . '/api/pct/division';
         $response = $service->get($url, $param);
         // return $response;
         $return = [
@@ -49,6 +49,37 @@ class JnsDivisionController extends Controller
         return $return;
     }
 
+    public function clientList(Request $request)
+    {
+        $page = ($request->start/10)+1;
+        $param=[
+            'page'=>$page,
+            'name'=>$request->search['value'],
+            'client_id'=>$request->client_id,
+           
+            ] ; 
+        $service = new ServiceRequest();
+        $url = env('API_URL') . '/api/pct/client';
+        $response = $service->get($url, $param);
+        // return $response;
+        $return = [
+            "draw" => $request->draw,
+            "recordsTotal" => $response["total"],
+            "recordsFiltered" => $response['total'],
+            "data" => $response["data"],
+            "page" => $page
+        ];
+        return $return;
+    }
+    public function ownerList(Request $request)
+    {
+        
+        $service = new ServiceRequest();
+        $url = env('API_URL') . '/api/pct/owner';
+        $response = $service->get($url, $request);
+        
+        return $response;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -71,11 +102,11 @@ class JnsDivisionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'division_name' => 'required'
         ]);
 
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division';
+        $url = env('API_URL') . '/api/pct/division';
         $response = $service->post($url, $request);
         return $response;
        // return redirect(route('jns.divisions.index'));
@@ -122,7 +153,7 @@ class JnsDivisionController extends Controller
         ]);
 
         $service = new ServiceRequest();
-        $url = env('API_URL') . '/api/jns/division/' . $id;
+        $url = env('API_URL') . '/api/pct/division/' . $id;
         $response = $service->put($url, $request);
 
         return redirect(route('jns.divisions.index'));

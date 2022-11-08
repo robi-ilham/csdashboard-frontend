@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">CPRO HELPDESK LIST</div>
+                <div class="card-header">CPRO BUTTON REQUEST</div>
 
                 <div class="card-body">
                     <div id="search-request" class="search-request row">
@@ -51,7 +51,7 @@
                     </div>
                     <hr/>
                     <button class="btn btn-success request-button text-white">New Request</button>
-                   <table class="table table-bordered table-striped" id="report-cpro-helpdesk">
+                   <table class="table table-bordered table-striped" id="report-cpro-chatbot">
                     <thead class="table-dark">
                         <tr>
                             <th>Request ID</th><th>Client</th><th>Division</th><th>Status</th><th>Request Date </th>
@@ -65,33 +65,20 @@
             </div>
         </div>
     </div>
-
-
     <div class="modal fade" id="request-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">NEW BROADCAST REQUEST</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">NEW BUTTON REQUEST</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger" style="display:none"></div>
     
-                    <form method="POST" action="{{ route('report.cpro.request.helpdesk') }}">
+                    <form method="POST" action="{{ route('report.cpro.request.button') }}">
                         @csrf
                         <div class="row">
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="division">Ticket No</label>
-                                    <input name="msisdn" id="msisdn" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="division">SPV</label>
-                                    <input name="spv_name" id="msisdn" class="form-control" />
-                                </div>
-                            </div>
+                            
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="division">MSISDN</label>
@@ -101,7 +88,7 @@
                             <div class="col-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="division">CLient</label>
-                                    <select name="ticket_no" class="form-control" id="ticket_no">
+                                    <select name="client_id" class="form-control" id="client_id">
                                         <option value=""></option>
                                         @foreach ($clients['query-result']['data'] as $client)
                                         <option value="{{ $client['client-id'] }}">{{ $client['client-name'] }}</option>
@@ -131,21 +118,11 @@
                                     </select>
                                 </div>
                             </div>
+                            
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="division">Template</label>
-                                    <select name="sender_id" class="form-control" id="sender_id">
-                                        <option value=""></option>
-                                        @foreach ($templates['data'] as $template)
-                                        <option value="{{ $template['template-id'] }}">{{ $template['template-name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="division">CS</label>
-                                    <select name="cs_id" class="form-control" id="cs_id">
+                                    <label class="form-label" for="division">header</label>
+                                    <select name="header" class="form-control" id="header">
                                         <option value=""></option>
     
                                     </select>
@@ -155,8 +132,25 @@
                             
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="division">Category</label>
-                                    <input name="category_id" id="category_id" class="form-control" />
+                                    <label class="form-label" for="division">Report Format</label>
+                                    <input name="report_format" id="report_format" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="division">Button Format</label>
+                                    <input name="button_format" id="button_format" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="division">Template</label>
+                                    <select name="sender_id" class="form-control" id="sender_id">
+                                        <option value=""></option>
+                                        @foreach ($templates['data'] as $template)
+                                        <option value="{{ $template['template-id'] }}">{{ $template['template-name'] }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -198,8 +192,7 @@
             format: 'yyyy-mm-dd'
         , });
 
-
-      jnsPrefix = $('#report-cpro-helpdesk').DataTable({
+      jnsPrefix = $('#report-cpro-chatbot').DataTable({
           //"order": [[ 8, "desc" ]],
           // "scrollX": true,
           "lengthChange": false,
@@ -210,8 +203,9 @@
           "processing": true,
           "serverSide": true,
           "ajax": {
-              "url": "{{ route('report.cpro.helpdesk-list-data') }}",
+              "url": "{{ route('report.cpro.button-list-data') }}",
               "data": function(data) {
+
                 var client_id = $('#search-request #client_id').find(':selected').val();
                     var division_id = $('#search-request #division_id').find(':selected').val();
                     var start_date = $("#start_date").val();
@@ -227,8 +221,8 @@
 
           },
           "columns": [{
-                  data: 'request_id',
-                  name: 'request_id'
+                  data: 'requestid',
+                  name: 'requestid'
               },
               {
                   data: 'client-name',

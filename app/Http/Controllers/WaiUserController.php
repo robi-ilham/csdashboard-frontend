@@ -36,7 +36,7 @@ class WaiUserController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/wai/user/index-ajax';
         $data = $service->get($url,$request);
-        //return $data;
+        return $data;
         return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){

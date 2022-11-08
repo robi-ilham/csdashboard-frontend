@@ -118,6 +118,8 @@
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenmap')}}"><span class="nav-icon"></span> Token Map</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.watemplate')}}"><span class="nav-icon"></span> WA Template</a></li>
 
+          
+
           <li class="nav-item"><a class="nav-link" href="{{route('cpro.audittrails.index')}}"><span class="nav-icon"></span> CPRO Audit Trail</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('cpro.senders.index')}}"><span class="nav-icon"></span> CPRO Sender</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('cpro.clients.index')}}"><span class="nav-icon"></span> CPRO CLient</a></li>
@@ -125,18 +127,21 @@
      
       </ul>
     </li>
-    {{-- <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
       <svg class="nav-icon">
         <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
       </svg> Report</a>
     <ul class="nav-group-items">
+      <li class="nav-item"><a class="nav-link" href="{{route('report.request.sms')}}"><span class="nav-icon"></span> SMS Push Request</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('report.request.wa')}}"><span class="nav-icon"></span> WA Push Request</a></li>
       <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.broadcast-list')}}"><span class="nav-icon"></span> Cpro Broadcast  List</a></li>
         <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.helpdesk-list')}}"><span class="nav-icon"></span> Cpro Helpdesk  List</a></li>
         <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.chatbot-list')}}"><span class="nav-icon"></span> Cpro Chatbot List </a></li>
+        <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.button-list')}}"><span class="nav-icon"></span> Cpro Button List </a></li>
        
    
     </ul>
-  </li> --}}
+  </li>
         
       </ul>
     </div>

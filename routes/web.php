@@ -15,9 +15,11 @@ use App\Http\Controllers\JnsM2mHttpController;
 use App\Http\Controllers\JnsM2mSmppController;
 use App\Http\Controllers\JnsUserController;
 use App\Http\Controllers\ReportCproController;
+use App\Http\Controllers\SmsPushReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserCproController;
 use App\Http\Controllers\WaiUserController;
+use App\Http\Controllers\WaPushReportController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,7 +76,10 @@ Route::middleware('authentication')->group(function(){
             Route::post('/users/delete/{user}',[JnsUserController::class,'destroy'])->name('user.delete');
 
             Route::get('/divisions/list',[JnsDivisionController::class,'list'])->name('division.list');
+            Route::get('/clients/list',[JnsDivisionController::class,'clientList'])->name('client.list');
+            Route::get('/owner/list',[JnsDivisionController::class,'ownerList'])->name('owner.list');
             Route::resource('divisions', JnsDivisionController::class);
+
             Route::post('/divisions/update/{id}',[JnsDivisionController::class,'update'])->name('division.update');
             Route::post('/divisions/delete/{division}',[JnsDivisionController::class,'destroy'])->name('division.delete');
 
@@ -165,7 +170,24 @@ Route::middleware('authentication')->group(function(){
 
             Route::get('chatbot-list',[ReportCproController::class,'chatbotListIndex'])->name('chatbot-list');
             Route::get('chatbot-list-data',[ReportCproController::class,'chatbotList'])->name('chatbot-list-data');
+
+            Route::get('button-list',[ReportCproController::class,'buttonListIndex'])->name('button-list');
+            Route::get('button-list-data',[ReportCproController::class,'buttonList'])->name('button-list-data');
+
+            
+
+            Route::post('broadcast/new-request',[ReportCproController::class,'requestNewBroadcast'])->name('request.broadcast');
+            Route::post('helpdesk/new-request',[ReportCproController::class,'requestNewHelpdesk'])->name('request.helpdesk');
+            Route::post('chatbot/new-request',[ReportCproController::class,'requestNewChatbot'])->name('request.chatbot');
+            Route::post('button/new-request',[ReportCproController::class,'requestNewButton'])->name('request.button');
         });
+            Route::get('request-sms',[SmsPushReportController::class,'index'])->name('request.sms');
+            Route::get('request-sms/list',[SmsPushReportController::class,'list'])->name('request.sms.list');
+            Route::post('request-sms/new',[SmsPushReportController::class,'store'])->name('request.sms.new');
+
+            Route::get('request-wa',[WaPushReportController::class,'index'])->name('request.wa');
+            Route::get('request-wa/list',[WaPushReportController::class,'list'])->name('request.wa.list');
+            Route::post('request-wa/new',[WaPushReportController::class,'store'])->name('request.wa.new');
     });
 
 });
