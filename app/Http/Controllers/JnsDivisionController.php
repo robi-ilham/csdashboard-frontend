@@ -38,7 +38,7 @@ class JnsDivisionController extends Controller
         $service = new ServiceRequest();
         $url = env('API_URL') . '/api/pct/division';
         $response = $service->get($url, $param);
-        // return $response;
+        return $response;
         $return = [
             "draw" => $request->draw,
             "recordsTotal" => $response["total"],
