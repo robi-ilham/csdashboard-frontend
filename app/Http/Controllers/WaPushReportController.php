@@ -125,4 +125,7 @@ class WaPushReportController extends Controller
     {
         //
     }
+    public function download(){
+
+    }
 }

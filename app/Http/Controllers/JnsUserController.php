@@ -44,7 +44,7 @@ class JnsUserController extends Controller
             'page'=>$page,
             'username'=>$request->username,
             'division_id'=>$request->division_id,
-            'client_idd'=>$request->client_id,
+            'client_id'=>$request->client_id,
             'group_id'=>$request->group_id,
             'status'=>$request->status
             ] ; 

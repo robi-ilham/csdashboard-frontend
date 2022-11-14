@@ -82,8 +82,11 @@ class InformationsController extends Controller
 
         $urlCat=env('API_URL').'/api/jns/drcategory';
         $categories = $service->get($urlCat);
+
+        $urlProvider=env('API_URL').'/api/jns/providers';
+        $providers = $service->get($urlProvider);
         //dd($response);
-        return view('information.drlist',compact('response','clients','groups','divisions','categories'));
+        return view('information.drlist',compact('response','clients','groups','divisions','categories','providers'));
     }
 
     public function drlistData(Request $request){
@@ -171,7 +174,7 @@ class InformationsController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/tokenbalance/index-ajax';
         $response = $service->get($url,$request);
-        //dd($response);
+       // return $response;
         return DataTables::of($response)
                 ->addIndexColumn()
                 ->make(true);

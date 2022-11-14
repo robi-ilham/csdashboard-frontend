@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('css/vendors/simplebar.css') }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/datatables.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
   <!-- Tempus Dominus Styles -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
     rel="stylesheet" crossorigin="anonymous">
@@ -117,6 +118,7 @@
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenbalance')}}"><span class="nav-icon"></span> Token Balance</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.tokenmap')}}"><span class="nav-icon"></span> Token Map</a></li>
           <li class="nav-item"><a class="nav-link" href="{{route('information.watemplate')}}"><span class="nav-icon"></span> WA Template</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{route('report.cpro.template')}}"><span class="nav-icon"></span> CPRO Template</a></li>
 
           
 
@@ -206,5 +208,6 @@
     crossorigin="anonymous"></script>
 
     <script src="{{ asset('js/datatables.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     @yield ('script')

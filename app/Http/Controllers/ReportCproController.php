@@ -166,6 +166,7 @@ class ReportCproController extends Controller
         $url=env('API_URL').'/api/cpro/template';
         $templates = $service->get($url,$request);
 
+        
         return view('report.cpro.chatbotList',compact('clients','divisions','templates','senders','templates'));
     }
     public function chatbotList(Request $request){
@@ -213,8 +214,6 @@ class ReportCproController extends Controller
         $url=env('API_URL').'/api/cpro/sender';
         $senders = $service->get($url,$request);
 
-        $url=env('API_URL').'/api/cpro/template';
-        $templates = $service->get($url,$request);
 
         return view('report.cpro.buttonList',compact('clients','divisions','templates','senders','templates'));
     }
@@ -246,6 +245,40 @@ class ReportCproController extends Controller
         ];
         return $return;
     }
-   
+    public function template(Request $request){
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/client';
+        $clients = $service->get($url);
+
+
+        $url=env('API_URL').'/api/cpro/sender';
+        $senders = $service->get($url,$request);
+      
+
+        return view('report.cpro.template',compact('clients','senders'));
+    }
+
+    public function templatedata(Request $request){
+        $page = ($request->start/10)+1;
+        $params=[
+            'page'=>$page,
+            'client_id'=>$request->client_id,
+            'sender'=>$request->sender_id,
+        ];
+        //return $params;
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/template/list';
+        $response = $service->get($url,$params);
+        //return $response;
+
+        $return = [
+            'draw' => $request->draw,
+            'recordstotal' => $response['row-count'],
+            'recordsFiltered' => $response['row-count'],
+            'data' => $response['data']
+            
+        ];
+        return $return;
+    }
     
 }

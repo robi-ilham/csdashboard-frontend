@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CproAuditTrailController;
 use App\Http\Controllers\CproClient;
 use App\Http\Controllers\CproDivisionController;
+use App\Http\Controllers\CproDownloadreport;
 use App\Http\Controllers\CproSenderController;
 use App\Http\Controllers\CproUserController;
 use App\Http\Controllers\CstoolsInformationController;
@@ -75,7 +76,10 @@ Route::middleware('authentication')->group(function(){
             Route::post('/users/update/{id}',[JnsUserController::class,'update'])->name('user.update');
             Route::post('/users/delete/{user}',[JnsUserController::class,'destroy'])->name('user.delete');
 
+            Route::get('/divisions/all',[JnsDivisionController::class,'selectList'])->name('divisions.all');
             Route::get('/divisions/list',[JnsDivisionController::class,'list'])->name('division.list');
+
+            Route::get('/clients/all',[JnsClientController::class,'selectList'])->name('client.all');
             Route::get('/clients/list',[JnsDivisionController::class,'clientList'])->name('client.list');
             Route::get('/owner/list',[JnsDivisionController::class,'ownerList'])->name('owner.list');
             Route::resource('divisions', JnsDivisionController::class);
@@ -162,6 +166,12 @@ Route::middleware('authentication')->group(function(){
 
     Route::name('report.')->prefix('report')->group(function(){
         Route::name('cpro.')->prefix('cpro')->group(function(){
+            Route::get('download/detail/{requestid}',[CproDownloadreport::class,'detail'])->name('download.detail');
+            Route::get('download/summary/{requestid}',[CproDownloadreport::class,'summary'])->name('download.summary');
+
+            Route::get('template',[ReportCproController::class,'template'])->name('template');
+            Route::get('template/data',[ReportCproController::class,'templatedata'])->name('templatedata');
+
             Route::get('broadcast-list',[ReportCproController::class,'broadcastListIndex'])->name('broadcast-list');
             Route::get('broadcast-list-data',[ReportCproController::class,'broadcastList'])->name('broadcast-list-data');
 

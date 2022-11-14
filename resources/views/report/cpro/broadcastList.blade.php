@@ -59,6 +59,7 @@
                             <th>Status</th>
                             <th>Report Format</th>
                             <th>Request date </th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -233,6 +234,23 @@
 
 
             ]
+            , "columnDefs": [{
+
+                "targets": [5]
+                , render: function(data, type, row) {
+                    var urlDetail = '{{ route("report.cpro.download.detail", ["requestid"=>":requestid"]) }}';
+                    urlDetail = urlDetail.replace(':requestid', row.requestid);
+
+                    var urlSummary = '{{ route("report.cpro.download.summary", ["requestid"=>":requestid"]) }}';
+                    urlSummary = urlSummary.replace(':requestid', row.requestid);
+
+
+
+
+                    return '<a href="' + urlDetail + '"  target="_blank"  class="edit btn btn-success text-white btn-sm ">Detail</a> <a href="' + urlSummary + '" target="_blank" class="delete btn btn-warning btn-sm text-white">Summary</a>'
+                }
+
+            }]
 
         });
 

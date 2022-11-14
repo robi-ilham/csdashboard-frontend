@@ -25,7 +25,14 @@ class JnsDivisionController extends Controller
         // return $clients;
         return view('jns.division.index', ['data' => $response]);
     }
+    public function selectList(Request $request){
+        $service = new ServiceRequest();
+        $url = env('API_URL') . '/api/jns/divisions/all';
+        $response = $service->get($url,$request);
 
+      
+        return $response;
+    }
     public function list(Request $request)
     {
         //return $request;

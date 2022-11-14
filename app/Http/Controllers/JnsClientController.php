@@ -20,6 +20,22 @@ class JnsClientController extends Controller
 
         return view('jns.client.index',['data'=>$response]);
     }
+    public function selectList(Request $request)
+    {
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/client';
+        $response = $service->get($url,$request);
+
+        return $response;
+    }
+    public function clientList(Request $request)
+    {
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/jns/client';
+        $response = $service->get($url,$request);
+
+        return $response;
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -83,7 +83,7 @@ class WaiUserController extends Controller
             'username'=>'required|string',
             'password'=>'required|confirmed',
             'name'=>'required',
-            'client_name'=>'required',
+           // 'client_name'=>'required',
             'client_id'=>'required',
             'division_id'=>'required',
 

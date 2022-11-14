@@ -40,6 +40,21 @@
 
                         <div class="col-6">
                             <div class="mb-3">
+                                <label class="form-label" for="group">Provider</label>
+                                <select name="provider_id" class="form-control" id="provider_id">
+                                    <option value=""></option>
+                                    
+                                    <option value="0">All Provider</option>
+
+                                    @foreach ($providers as $provider)
+                                    <option value="{{ $provider['id'] }}">{{ $provider['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mb-3">
                                 <label class="form-label" for="group">category</label>
                                 <select name="drpush_category_id" class="form-control" id="drpush_category_id">
                                     <option value="">All</option>
@@ -126,6 +141,7 @@
                     var division_id = $('#searchJnsDrlist #division_id').val();
                     var client_id = $('#searchJnsDrlist #client_id').val();
                     var type = $('#searchJnsDrlist #type').val();
+                    var provider_id=$("#searchJnsDrlist #provider_id").val();
 
 
                     // Append to data
@@ -133,6 +149,7 @@
                     data.client_id=client_id;
                     data.division_id=division_id;
                     data.type=type;
+                    data.provider_id=provider_id;
 
                 }
 
