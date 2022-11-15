@@ -289,7 +289,7 @@
                 , render: function(data, type, row) {
 
                     if (row.output != null) {
-                        return '<a href="#" data-name="' + row.client_name + '" data-path="' + row.output + '" class="btn btn-success btn-download">Download</a>'
+                        return '<form method="post" action="{{route("report.download.request")}}"><input type="hidden" name="_token" value="{{csrf_token()}}" /><button type="submit" class="btn btn-success text-white">Dwonload</button><input type="hidden" name="path" value="'+row.output+'" /><input type="hidden" name="name" value="'+row.client_name+'" />'
                     } else {
                         return "";
                     }

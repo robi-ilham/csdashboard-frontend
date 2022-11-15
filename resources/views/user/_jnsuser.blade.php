@@ -307,7 +307,7 @@
             Jnsuser.draw();
         });
 
-        $("#addJnsuser").unbind().on('click', function() {
+        $("#addJnsuser").off('click','#addJnsuser').on('click', function() {
 
             var action = $(this).attr('data-href');
             resetForm();

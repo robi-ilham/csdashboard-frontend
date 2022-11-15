@@ -14,11 +14,10 @@ class JnsDownloadReport extends Controller
         //return $params;
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/report/request/download';
-        $response = $service->get($url,$params);
+        $response = $service->post($url,$params);
         $filename=$request->name.".csv";
 
-        return $request;
-
+       // return $response;
         return response($response)
                 ->withHeaders([
                     'Content-Type' => 'text/plain',
