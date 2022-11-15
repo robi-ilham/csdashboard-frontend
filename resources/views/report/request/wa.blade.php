@@ -75,8 +75,7 @@
                                 <label class="form-label" for="division">Year</label>
                                 <select name="year" class="form-control" id="year">
                                     <option value=""></option>
-                                    @for ($y=2020;$y<=date('Y');$y++)
-                                     <option value="{{ $y}}">{{ $y }}</option>
+                                    @for ($y=2020;$y<=date('Y');$y++) <option value="{{ $y}}">{{ $y }}</option>
                                         @endfor
                                 </select>
                             </div>
@@ -283,14 +282,44 @@
                     data: 'output'
                     , name: 'output'
                 }
-
-
-
-
             ]
+            , "columnDefs": [{
+
+                "targets": [7]
+                , render: function(data, type, row) {
+
+                    if (row.output != null) {
+                        return '<a href="#" data-name="' + row.client_name + '" data-path="' + row.output + '" class="btn btn-success btn-download">Download</a>'
+                    } else {
+                        return "";
+                    }
+
+                }
+
+            }]
+
 
         });
+        $("#report-cpro-broadcast").on('click', '.btn-download', function(e) {
+            e.preventDefault();
+            var page ='{{route("report.download.request")}}'
+            const postFormData = {
+                '_token':'{{csrf_token()}}',
+                "name": $(this).attr('data-name'),
+                "path":$(this).attr('data-path')
+            };
+                $.ajax({
+                    url: page
+                    , data: postFormData
+                    , type: 'post'
+                    , success: function(response) {
+                        return true;
+                    }
+                });
+            
 
+
+        });
         $("button.request-button").on('click', function(e) {
             e.preventDefault();
             var action = $(this).attr('data-href');

@@ -114,7 +114,7 @@ class JnsUserController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/user';
         $response = $service->post($url,$request);
-        return back()->withInput();
+        return $response;
         return redirect(route('jns.users.index'));
 
     }

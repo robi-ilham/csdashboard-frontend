@@ -90,9 +90,28 @@ class InformationsController extends Controller
     }
 
     public function drlistData(Request $request){
+        $page = ($request->start/10)+1;
+        $param=[
+            'page'=>$page,
+            'client_id'=>$request->client_id,
+            'division_id'=>$request->division_id,
+            'dr_push_category_id'=>$request->dr_push_category_id,
+            'provider_id'=>$request->provider_id,
+            'type'=>$request->type
+        ] ; 
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/jns/deliveryreport/index-ajax';
-        $response = $service->get($url,$request);
+        $response = $service->get($url,$param);
+
+        $return = [
+            "draw"=>$request->draw,
+            "recordsTotal"=>$response["total"],
+            "recordsFiltered"=>$response['total'],
+            "data"=>$response["data"],
+            "page"=>$page
+        ];
+        
+        return json_encode($return);
         return DataTables::of($response)
                 ->addIndexColumn()
                 ->make(true);

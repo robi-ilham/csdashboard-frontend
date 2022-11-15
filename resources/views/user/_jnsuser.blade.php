@@ -138,9 +138,12 @@
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label class="form-label select-client" for="group">Client</label>
-                                        <select name="client_id" class="form-control " id="client_id_1">
+                                        <div>
+                                        <select name="client_id" class="form-control" id="client_id_1">
 
-                                        </select> </div>
+                                        </select> 
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
@@ -304,7 +307,7 @@
             Jnsuser.draw();
         });
 
-        $("#addJnsuser").on('click', function() {
+        $("#addJnsuser").unbind().on('click', function() {
 
             var action = $(this).attr('data-href');
             resetForm();

@@ -12,9 +12,12 @@ class ReportCproController extends Controller
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/cpro/client';
         $clients = $service->get($url);
+       // return $clients;
 
         $url=env('API_URL').'/api/cpro/division/index-api';
         $divisions = $service->get($url);
+
+        return $divisions;
 
 
         $url=env('API_URL').'/api/cpro/template';

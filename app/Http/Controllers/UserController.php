@@ -36,6 +36,7 @@ class UserController extends Controller
 
         $cproSendersUrl = env('API_URL') . '/api/cpro/sender';
         $cproSenders = $service->get($cproSendersUrl);
+       // return $cproSenders;
 
         $urlPrivilege = env('API_URL') . '/api/jns/privilegetype';
         $privileges = $service->get($urlPrivilege);

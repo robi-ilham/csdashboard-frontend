@@ -12,6 +12,7 @@ use App\Http\Controllers\CstoolsInformationController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\JnsClientController;
 use App\Http\Controllers\JnsDivisionController;
+use App\Http\Controllers\JnsDownloadReport;
 use App\Http\Controllers\JnsM2mHttpController;
 use App\Http\Controllers\JnsM2mSmppController;
 use App\Http\Controllers\JnsUserController;
@@ -198,6 +199,7 @@ Route::middleware('authentication')->group(function(){
             Route::get('request-wa',[WaPushReportController::class,'index'])->name('request.wa');
             Route::get('request-wa/list',[WaPushReportController::class,'list'])->name('request.wa.list');
             Route::post('request-wa/new',[WaPushReportController::class,'store'])->name('request.wa.new');
+            Route::post('download/request',[JnsDownloadReport::class,'requestReport'])->name('download.request');
     });
 
 });

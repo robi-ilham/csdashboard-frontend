@@ -5,8 +5,27 @@ namespace App\Http\Controllers;
 use App\Service\ServiceRequest;
 use Illuminate\Http\Request;
 
-class WaPushReportController extends Controller
+class JnsDownloadReport extends Controller
 {
+    public function requestReport(Request $request){
+        $path=$request->path;
+        $params=['path'=>$path];
+        
+        //return $params;
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/report/request/download';
+        $response = $service->get($url,$params);
+        $filename=$request->name.".csv";
+
+        return $request;
+
+        return response($response)
+                ->withHeaders([
+                    'Content-Type' => 'text/plain',
+                    'Cache-Control' => 'no-store, no-cache',
+                    'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+                ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,46 +33,7 @@ class WaPushReportController extends Controller
      */
     public function index()
     {
-
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/jns/client';
-        $clients = $service->get($url);
-
-        
-
-        $url=env('API_URL').'/api/jns/divisions/all';
-        $divisions = $service->get($url);
-        //return $divisions;
- 
-
-        $url=env('API_URL').'/api/jns/masking/index-ajax';
-        $masks = $service->get($url);
-        return view('report.request.wa',compact('clients','divisions','masks'));
-    }
-
-    public function list(Request $request){
-        
-        $page = ($request->start/10)+1;
-        $params=[
-            'page'=>$page,
-            'client_id'=>$request->client_id,
-            'division_id'=>$request->division_id,
-            'start_date'=>$request->start_date,
-            'end_date'=>$request->end_date
-        ];
-        //return $params;
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/report/wa-push';
-        $response = $service->get($url,$params);
-
-        $return = [
-            'draw' => $request->draw,
-            'recordstotal' => $response['total'],
-            'recordsFiltered' => $response['total'],
-            'data' => $response['data']
-            
-        ];
-        return $return;
+        //
     }
 
     /**
@@ -74,10 +54,7 @@ class WaPushReportController extends Controller
      */
     public function store(Request $request)
     {
-        $service = new ServiceRequest();
-        $url=env('API_URL').'/api/report/wa-push';
-        $response = $service->post($url,$request);
-        return back()->withInput();
+        //
     }
 
     /**
@@ -123,8 +100,5 @@ class WaPushReportController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function download(){
-
     }
 }

@@ -87,7 +87,6 @@
                 <table class="table table-bordered table-striped" id="jns-drlist">
                     <thead class="table-dark">
                         <tr>
-                            <th>No</th>
                             <th>Client</th>
                             <th>Division </th>
                             <th>Mask</th>
@@ -155,10 +154,6 @@
 
             }
             , "columns": [{
-                    data: 'DT_RowIndex'
-                    , name: 'DT_RowIndex'
-                }
-                , {
                     data: 'client.name'
                     , name: 'client_id'
                 }
@@ -197,13 +192,15 @@
             ]
             , "columnDefs": [{
 
-                "targets": [2]
+                "targets": [1]
                 , render: function(data, type, row) {
 
                     if (row.division_id == 0) {
 
                         return 'All';
 
+                    }else{
+                        return row.division.name;
                     }
                 }
 
