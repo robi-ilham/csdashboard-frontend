@@ -369,6 +369,10 @@
             e.preventDefault();
             var action = $(this).attr('data-href');
             $("#divisionForm form #division_id").val("");
+            $("#divisionForm form #division_name").val("");
+            $("#divisionForm form #ba_type").val("").attr('disabled',false);
+            $("#divisionForm form #token_type").val("").attr('disabled',false);
+            $("#divisionForm form #owner").val("").attr('disabled',false);;
             $("#divisionForm form").attr("action", action)
             $("#divisionForm").modal('show');
 
@@ -387,7 +391,8 @@
                     }
                 , }).done(function(data, status) {
                     $("#divisionForm").modal('hide');
-                    division.draw();
+                    location.reload();
+                    //division.draw();
                 })
             })
         });
@@ -409,8 +414,9 @@
             $("#divisionForm form #division_name").val(divisionName);
             $("#divisionForm form #select-client").val(clientName);
             $("#divisionForm form #client_id").val(clientId);
-            $("#divisionForm form #ba_type").val(batype);
-            $("#divisionForm form #token_type").val(batype);
+            $("#divisionForm form #ba_type").val(batype).attr('disabled',true);
+            $("#divisionForm form #token_type").val(batype).attr('disabled',true);
+            $("#divisionForm form #owner").val("").attr('disabled',true);;
             $.ajax({
                 url: "{{route('jns.owner.list')}}"
                 , method: "get"
@@ -446,7 +452,8 @@
                     , data: $(this).serialize()
                 , }).done(function(data) {
                     $("#divisionForm").modal('hide');
-                    division.draw();
+                    location.reload();
+                    //division.draw();
                     onsubmit = false;
                 });
 

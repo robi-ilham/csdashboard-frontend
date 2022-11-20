@@ -22,6 +22,15 @@ class CproClient extends Controller
 
         return view('cpro.client.index',compact('response'));
     }
+    public function indexAjax(Request $request)
+    {
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/client';
+        $response = $service->get($url,$request);
+
+       return $response['query-result']['data'];
+
+    }
 
     /**
      * Show the form for creating a new resource.

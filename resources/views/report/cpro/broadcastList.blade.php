@@ -113,6 +113,9 @@
                                 <label class="form-label" for="division">Report Format</label>
                                 <select name="report_format" class="form-control" id="report_format">
                                     <option value=""></option>
+                                    <option value="1">All</option>
+                                    <option value="2">Summary</option>
+                                    <option value="3">Detail</option>
 
                                 </select>
                             </div>

@@ -17,7 +17,6 @@ class ReportCproController extends Controller
         $url=env('API_URL').'/api/cpro/division/index-api';
         $divisions = $service->get($url);
 
-        return $divisions;
 
 
         $url=env('API_URL').'/api/cpro/template';
@@ -25,10 +24,6 @@ class ReportCproController extends Controller
 
         $url=env('API_URL').'/api/cpro/sender';
         $senders = $service->get($url,$request);
-
-       // dd($divisions);
-
-
 
 
         return view('report.cpro.broadcastList',compact('clients','divisions','templates','senders'));

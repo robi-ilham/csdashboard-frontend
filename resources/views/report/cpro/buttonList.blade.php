@@ -127,8 +127,11 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label class="form-label" for="division">header</label>
-                                <select name="header" class="form-control" id="header">
+                                <select name="report_format" class="form-control" id="report_format">
                                     <option value=""></option>
+                                    <option value="1">All</option>
+                                    <option value="2">Summary</option>
+                                    <option value="3">Detail</option>
 
                                 </select>
                             </div>

@@ -324,7 +324,8 @@
                     }
                 , }).done(function(data, status) {
                     $("#m2mUserForm").modal('hide');
-                    m2muser.draw();
+                    location.reload();
+                    //m2muser.draw();
                 })
             })
         });
@@ -396,7 +397,8 @@
                         , data: $(this).serialize()
                     , }).done(function(data) {
                         $("#m2mUserForm").modal('hide');
-                        m2muser.draw();
+                        location.reload();
+                       // m2muser.draw();
                         onsubmit = false;
                     });
                 } else {

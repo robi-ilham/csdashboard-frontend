@@ -40,7 +40,7 @@
                                 <div class="">
                                     <label class="form-label" for="group">&nbsp;</label>
                                 </div>
-                                <button type="submit" class="btn btn-success text-white searchWaiUser">Search</button>
+                                <button type="submit" class="btn btn-success text-white searchWaiUser" id="searchWaiUser">Search</button>
                             </div>
                         </div>
 
@@ -284,9 +284,9 @@
                 "url": "{{route('wai.user.list')}}"
                 , "data": function(data) {
                     // Read values
-                    var username = $('#waisearchForm #username').val();
-                    var client_id = $('#waisearchForm #client_id').find(':selected').val();
-                    var division_id = $('#waisearchForm #division_id').find(':selected').val();
+                    var username = $('#waiSearchForm #username').val();
+                    var client_id = $('#waiSearchForm #client_id').find(':selected').val();
+                    var division_id = $('#waiSearchForm #division_id').find(':selected').val();
 
                     // Append to data
                     data.username = username;
@@ -338,6 +338,7 @@
         });
 
         $('#searchWaiUser').on('click', function(e) {
+            console.log('search');
             e.preventDefault()
             waiuser.draw();
         });
@@ -366,7 +367,8 @@
                     }
                 , }).done(function(data) {
                     $("#waiUserForm").modal('hide');
-                    waiuser.draw();
+                    location.reload();
+                    //waiuser.draw();
                 });
             })
         });
@@ -414,8 +416,9 @@
                         });
                     }
                 }).done(function(data) {
+                    location.reload();
                     $("#waiUserForm").modal('hide');
-                    waiuser.draw();
+                    //waiuser.draw();
                 });
             })
 

@@ -88,6 +88,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-danger" style="display:none"></div>
+
                     <form method="POST"  action="{{route('jns.users.store')}}">
                         <input name="id" id="id" value="" type="hidden" />
                         @csrf
@@ -329,7 +331,8 @@
 
                 }).done(function(data) {
                     $(".modalForm").modal('hide');
-                    Jnsuser.draw();
+                   // Jnsuser.draw();
+                    location.reload();
                 });
             })
         });
@@ -393,7 +396,8 @@
                 }).done(function(data) {
                     $(".modalForm").modal('hide');
                     resetForm();
-                    Jnsuser.draw();
+                    location.reload();
+                   // Jnsuser.draw();
                 });
             })
 

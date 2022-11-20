@@ -298,7 +298,8 @@
                     }
                 , }).done(function(data) {
                     $("#cstoolsUserForm").modal('hide');
-                    cstoolsuser.draw();
+                    location.reload();
+                    //cstoolsuser.draw();
                     onsubmit = false;
                 });
 
@@ -356,7 +357,8 @@
                         }
                     , }).done(function(data) {
                         $("#cstoolsUserForm").modal('hide');
-                        cstoolsuser.draw();
+                        location.reload();
+                        //cstoolsuser.draw();
                         onsubmit = false;
                     });
                 } else {

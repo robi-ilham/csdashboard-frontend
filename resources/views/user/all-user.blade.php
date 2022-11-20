@@ -73,7 +73,7 @@
             clientDropdown()
         } else if (lastTab == "#cpro") {
             cproUserDatatable();
-            clientDropdown()
+            cproClientDropdown()
         } else if (lastTab == "#cstools") {
             cstoolsDataTable();
             clientDropdown();
@@ -104,6 +104,8 @@
             waiUserDatatable();
         } else if (href == "#cpro") {
             cproUserDatatable();
+
+            cproClientDropdown();
         } else if (href == "#cstools") {
             cstoolsDataTable();
         }
@@ -205,6 +207,110 @@
                                     return {
                                         text: item.name
                                         , id: item.id
+                                    }
+                                })
+                            };
+                        }
+                        , cache: true
+                    }
+                });
+            }
+        })
+    }
+
+
+    function cproClientDropdown() {
+        var path = "{{ route('cpro.clients.index-ajax') }}";
+        $('#client_id_search').select2({
+            placeholder: 'Select client'
+            , ajax: {
+                url: path
+                , dataType: 'json'
+                , delay: 250
+                , processResults: function(data) {
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item['client-name']
+                                , id: item['client-id']
+                            }
+                        })
+                    };
+                }
+                , cache: true
+            }
+        });
+
+        $('#client_id_search').on('change', function() {
+            console.log('change');
+            $("#division_id_search").empty();
+            let client_id = $(this).val();
+            if (client_id) {
+                var path = "{{ route('cpro.division.index-ajax') }}?client_id=" + client_id;
+                $('#division_id_search').select2({
+                    placeholder: 'Select division'
+                    , ajax: {
+                        url: path
+                        , dataType: 'json'
+                        , delay: 250
+                        , processResults: function(data) {
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        text: item['division-name']
+                                , id: item['division-id']
+                                    }
+                                })
+                            };
+                        }
+                        , cache: true
+                    }
+                });
+            }
+        })
+    }
+
+    function cproModalSelect() {
+        var path = "{{ route('cpro.clients.index-ajax') }}";
+        $('#client_id_cpro').select2({
+          dropdownParent: $(".modalUserCpro"),
+            placeholder: 'Select client'
+            , ajax: {
+                url: path
+                , dataType: 'json'
+                , delay: 250
+                , processResults: function(data) {
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item['client-name']
+                                , id: item['client-id']
+                            }
+                        })
+                    };
+                }
+                , cache: true
+            }
+        });
+
+        $('#client_id_cpro').on('change', function() {
+            $("#division_id_cpro").empty();
+            let client_id = $(this).val();
+            if (client_id) {
+                var path = "{{ route('cpro.division.index-ajax')  }}?client_id=" + client_id;
+                $('#division_id_cpro').select2({
+                  dropdownParent: $(".modalUserCpro"),
+                    placeholder: 'Select division'
+                    , ajax: {
+                        url: path
+                        , dataType: 'json'
+                        , delay: 250
+                        , processResults: function(data) {
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        text: item['division-name']
+                                , id: item['division-id']
                                     }
                                 })
                             };

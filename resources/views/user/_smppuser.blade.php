@@ -6,31 +6,25 @@
             <div class="card-body">
                 <div class="card">
                     <div class="card-body">
-                        <form action="">
-                            <input type="hidden" name="id" id="id" value="" />
-                            <div class="row">
+                            <div class="row" id="smppUserSearchForm">
 
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="username">Client</label>
-                                        <select class="form-control" name="client_id">
+                                        <select class="form-control" name="client_id" id="client_id">
+                                            <option></option>
                                             @foreach ($clients as $client )
                                             <option value="{{$client['id']}}">{{$client['name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="group">Batch Name</label>
-                                        <input class="form-control" id="username" type="text" placeholder="BatchName">
-                                        </select>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="group">Division</label>
-                                        <select class="form-control" name="division_id">
+                                        <select class="form-control" name="division_id" id="division_id">
+                                            <option value=""></option>
                                             @foreach ($divisions as $division )
                                             <option value="{{$division['id']}}">{{$division['name']}}</option>
                                             @endforeach
@@ -39,8 +33,17 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
+                                        <label class="form-label" for="group">Batch Name</label>
+                                        <input class="form-control" id="batchname" type="text" placeholder="BatchName">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
                                         <label class="form-label" for="group">Service Type</label>
-                                        <select class="form-control" name="client_id">
+                                        <select class="form-control" name="service_type" id="service_type">
+                                            <option value=""></option>
+
                                             <option value="1">Http</option>
                                             <option value="2">Alert</option>
                                             <option value="3">Otp</option>
@@ -57,12 +60,11 @@
                                     <div class="">
                                         <label class="form-label" for="group">&nbsp;</label>
                                     </div>
-                                    <button type="submit" class="btn btn-success text-white">Search</button>
+                                    <button type="submit" class="btn btn-success text-white" id="searchSmppUser">Search</button>
                                 </div>
                             </div>
 
 
-                        </form>
                     </div>
                 </div>
                 <div class="row mt-5">
@@ -202,7 +204,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="view-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="smpp-view-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -320,14 +322,20 @@
                 "url": "{{route('smpps.user.list')}}"
                 , "data": function(data) {
                     // Read values
-                    var username = $('#m2mUserSearchForm #username').val();
-                    var client_id = $('#m2mUserSearchForm #client_id').find(':selected').val();
-                    var division_id = $('#m2mUserSearchForm #division_id').find(':selected').val();
+                    var username = $('#smppUserSearchForm #username').val();
+                    var client_id = $('#smppUserSearchForm #client_id').find(':selected').val();
+                    var division_id = $('#smppUserSearchForm #division_id').find(':selected').val();
+                    var batchname=$('#smppUserSearchForm #batchname').val();
+                    var service_type=$('#smppUserSearchForm #service_type').val();
+                    var system_id=$('#smppUserSearchForm #system_id').val();
 
                     // Append to data
                     data.username = username;
                     data.client_id = client_id;
                     data.division_id = division_id;
+                    data.batchname=batchname;
+                    data.service_type=service_type;
+                    data.system_id=system_id;
                 }
 
             }
@@ -403,7 +411,8 @@
                     , data: $(this).serialize()
                 , }).done(function(data) {
                     $("#smppUserForm").modal('hide');
-                    smppuser.draw();
+                    location.reload();
+                    //smppuser.draw();
                 });
             })
         });
@@ -420,25 +429,25 @@
                 , url: href
 
             }).done(function(data) {
-                $("#view-data form #id").val(data.id).prop("disabled", true);
-                $("#view-data  form #batchname").val(data.batchname).prop("disabled", true);
-                $("#view-data  form #system_id").val(data.system_id).prop("disabled", true);
-                $("#view-data  form #password").val(data.password).prop("disabled", true);
-                $("#view-data  form #client_id").val(data.client_id).prop("disabled", true);
-                $("#view-data  form #division").val(data.division).prop("disabled", true);
-                $("#view-data  form #service_type").val(data.service_type).prop("disabled", true);
-                $("#view-data  form #dr_format").val(data.dr_format).prop("disabled", true);
-                $("#view-data  form #upload_by").val(data.upload_by).prop("disabled", true);
-                $("#view-data  form #max_connection").val(data.max_connection).prop("disabled", true);
+                $("#smpp-view-data  #id").val(data.id).prop("disabled", true);
+                $("#smpp-view-data   #batchname").val(data.batchname).prop("disabled", true);
+                $("#smpp-view-data   #system_id").val(data.system_id).prop("disabled", true);
+                $("#smpp-view-data   #password").val(data.password).prop("disabled", true);
+                $("#smpp-view-data   #client_id").val(data.client_id).prop("disabled", true);
+                $("#smpp-view-data   #division").val(data.division).prop("disabled", true);
+                $("#smpp-view-data   #service_type").val(data.service_type).prop("disabled", true);
+                $("#smpp-view-data   #dr_format").val(data.dr_format).prop("disabled", true);
+                $("#smpp-view-data   #upload_by").val(data.upload_by).prop("disabled", true);
+                $("#smpp-view-data   #max_connection").val(data.max_connection).prop("disabled", true);
                 if (data.use_optional_parameter == 1) {
-                    $("#view-data  form #use_optional_parameter").prop("checked", true).prop("disabled", true);;
+                    $("#smpp-view-data   #use_optional_parameter").prop("checked", true).prop("disabled", true);;
                 }
                 if (data.use_expired_session == 1) {
-                    $("#view-data  form #use_expired_session").prop("checked", true).prop("disabled", true);;
+                    $("#smpp-view-data   #use_expired_session").prop("checked", true).prop("disabled", true);;
                 }
 
 
-                $("#view-data").modal('show');
+                $("#smpp-view-data").modal('show');
 
             });
 
@@ -488,7 +497,8 @@
                     , data: $(this).serialize()
                 , }).done(function(data) {
                     $("#smppUserForm").modal('hide');
-                    smppuser.draw();
+                    location.reload();
+                   // smppuser.draw();
                 });
             })
 

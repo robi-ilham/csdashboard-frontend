@@ -10,20 +10,30 @@
             <label class="form-label" for="group">Privilege</label>
             <select name="privilege-id" class="form-control" id="privilege_id">
                 <option value="">Group</option>
-                @foreach ($privileges as $privilege)
-                <option value="{{$privilege['id']}}">{{$privilege['name']}}</option>
+                @foreach ($privileges['query-result']['data'] as $privilege)
+                <option value="{{$privilege['privilege-id']}}">{{$privilege['privilege-name']}}</option>
                 @endforeach
             </select>
         </div>
     </div>
     <div class="col-4">
         <div class="mb-3">
+            <label class="form-label" for="group">Client</label>
+            <select name="client_id" class="form-control" id="client_id_search">
+                {{-- @foreach ($cproClients['query-result']['data'] as $client)
+                <option value="{{$client['client-id']}}">{{$client['client-name']}}</option>
+                @endforeach --}}
+            </select>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
             <label class="form-label" for="division">Division</label>
-            <select name="division_id" class="form-control" id="divison_id">
-                <option value="">DIvision</option>
-                @foreach ($divisions as $division)
+            <select name="division_id" class="form-control" id="division_id_search">
+                {{-- <option value="">DIvision</option>
+                @foreach ($cproDivisions as $division)
                 <option value="{{$division['id']}}">{{$division['name']}}</option>
-                @endforeach
+                @endforeach --}}
             </select>
         </div>
     </div>
@@ -40,18 +50,7 @@
             </select>
         </div>
     </div>
-    <div class="col-4">
-        <div class="mb-3">
-            <label class="form-label" for="group">Client</label>
-            <select name="client_id" class="form-control" id="client_id">
-                <option value="">Client</option>
 
-                @foreach ($clients as $client)
-                <option value="{{$client['id']}}">{{$client['name']}}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
 
 </div>
 <div class="row">
@@ -96,13 +95,13 @@
                         <div class="col-6">
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="name">Client</label>
+                                    <label class="form-label" for="name">Full name</label>
                                     <input class="form-control" id="name" type="text" name="name" placeholder="Full name">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="email">Full name</label>
+                                    <label class="form-label" for="email">Email</label>
                                     <input class="form-control" id="email" name="email" type="email" placeholder="Email">
                                 </div>
                             </div>
@@ -125,27 +124,29 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="group">Privilege</label>
                                     <select name="privilege_id" class="form-control" id="privilege_id">
-                                        @foreach ($privileges as $privilege)
-                                        <option value="{{$privilege['id']}}">{{$privilege['name']}}</option>
+                                        @foreach ($privileges['query-result']['data'] as $privilege)
+                                        <option value="{{$privilege['privilege-id']}}">{{$privilege['privilege-name']}}</option>
                                         @endforeach
                                     </select> </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="group">Client</label>
-                                    <select name="client_id" class="form-control" id="client_id">
-                                        @foreach ($clients as $client)
-                                        <option value="{{$client['id']}}">{{$client['name']}}</option>
-                                        @endforeach
-                                    </select> </div>
+                                    <div>
+                                        <select name="client_id" class="form-control" id="client_id_cpro">
+                                            {{-- @foreach ($cproClients['query-result']['data'] as $client)
+                                        <option value="{{$client['client-id']}}">{{$client['client-name']}}</option>
+                                            @endforeach --}}
+                                        </select> </div>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="division">Division</label>
-                                    <select name="division_id" class="form-control" id="divison_id">
-                                        @foreach ($divisions as $division)
+                                    <select name="division_id" class="form-control" id="division_id_cpro">
+                                        {{-- @foreach ($divisions as $division)
                                         <option value="{{$division['id']}}">{{$division['name']}}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -197,8 +198,8 @@
                     // Read values
                     var username = $('#cpro-filter #username').val();
                     var group_id = $('#cpro-filter  #group_id').find(':selected').val();
-                    var client_id = $('#cpro-filter  #client_id').find(':selected').val();
-                    var division_id = $('#cpro-filter  #division_id').find(':selected').val();
+                    var client_id = $('#cpro-filter  #client_id_search').find(':selected').val();
+                    var division_id = $('#cpro-filter  #division_id_search').find(':selected').val();
 
                     // Append to data
                     data.username = username;
@@ -236,7 +237,7 @@
                     data: 'status'
                     , name: 'status'
                 }
-                
+
 
 
             ]
@@ -244,7 +245,7 @@
 
                 "targets": [7]
                 , render: function(data, type, row) {
-                    
+
                     var urlDelete = '{{ route("cpro.users.delete", ["user"=>":userid"]) }}';
                     urlDelete = urlDelete.replace(':userid', row.username);
 
@@ -265,6 +266,7 @@
             $("#CproUserForm form #id").val("");
             $("#CproUserForm form").attr("action", action)
             $("#CproUserForm").modal('show');
+            cproModalSelect();
 
             $("#CproUserForm form").on('submit', function(e) {
                 e.preventDefault();
@@ -273,8 +275,9 @@
                     , url: $(this).attr('action')
                     , data: $(this).serialize()
                 , }).done(function(data) {
+                    location.reload();
                     $("#CproUserForm").modal('hide');
-                    Jnsuser.draw();
+                   // Jnsuser.draw();
                 });
             })
         });
@@ -302,8 +305,8 @@
                 $("#JnsUserForm form #email").val(data.email);
                 $("#JnsUserForm form #id").val(data.id);
                 $("#JnsUserForm form #group_id option:selected").val(data.group_id);
-                $("#JnsUserForm form #client_id").val(data.client_id);
-                $("#JnsUserForm form #division_id").val(data.division_id);
+                $("#JnsUserForm form #client_id_cpro").val(data.client_id);
+                $("#JnsUserForm form #division_id_cpro").val(data.division_id);
                 $("#JnsUserForm form #expiry_mode_id").val(data.expiry_mode_id);
                 $("#JnsUserForm form #expiry").val(data.expiry);
 
@@ -321,7 +324,8 @@
                     , data: $(this).serialize()
                 , }).done(function(data) {
                     $(".modalForm").modal('hide');
-                    cproUser.draw();
+                   // cproUser.draw();
+                    location.reload();
                 });
             })
 

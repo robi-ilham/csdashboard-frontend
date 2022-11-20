@@ -116,10 +116,12 @@ Route::middleware('authentication')->group(function(){
         Route::resource('users', CproUserController::class);
         Route::post('/users/delete/{user}',[CproUserController::class,'destroy'])->name('users.delete');
 
+        Route::get('/divisions/index-ajax',[CproDivisionController::class,'indexAjax'])->name('division.index-ajax');
         Route::resource('divisions', CproDivisionController::class);
         Route::post('/divisions/update/{id}',[CproDivisionController::class,'update'])->name('division.update');
             Route::post('/divisions/delete/{division}',[CproDivisionController::class,'destroy'])->name('division.delete');
-            
+         
+        Route::get('/clients/index-ajax',[CproClient::class,'indexAjax'])->name('clients.index-ajax');
         Route::resource('clients', CproClient::class);
 
         Route::get('/senders/list',[CproSenderController::class,'list'])->name('senders.list');

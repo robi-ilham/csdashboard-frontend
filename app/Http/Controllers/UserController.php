@@ -19,6 +19,19 @@ class UserController extends Controller
     public function allUserApp()
     {
         $service = new ServiceRequest();
+        $cproSendersUrl = env('API_URL') . '/api/cpro/sender';
+        $cproSenders = $service->get($cproSendersUrl);
+       // return $cproSenders;
+
+        $cproClienturl=env('API_URL').'/api/cpro/client';
+        $cproClients = $service->get($cproClienturl);
+        //return $cproClients;
+
+        
+
+        $cproDivisionUrl=env('API_URL').'/api/cpro/division';
+        $cproDivisions = $service->get($cproDivisionUrl);
+
         $url = env('API_URL') . '/api/user';
         $data = $service->get($url);
 
@@ -34,21 +47,29 @@ class UserController extends Controller
         $sendersUrl = env('API_URL') . '/api/wai/sender';
         $senders = $service->get($sendersUrl);
 
-        $cproSendersUrl = env('API_URL') . '/api/cpro/sender';
-        $cproSenders = $service->get($cproSendersUrl);
-       // return $cproSenders;
+        
 
-        $urlPrivilege = env('API_URL') . '/api/jns/privilegetype';
+        $urlPrivilege = env('API_URL') . '/api/cpro/privilege';
         $privileges = $service->get($urlPrivilege);
+        //return $privileges;
 
         // return $senders;
-        return view('user.all-user', compact('data', 'divisions', 'groups', 'clients', 'senders', 'cproSenders', 'privileges'));
+        return view('user.all-user', compact('data', 'divisions', 'groups', 'clients', 'senders', 'cproSenders', 'privileges','cproClients','cproDivisions'));
     }
     public function index()
     {
 
         /// dd($response);
         return view('user._cstoolsuser');
+    }
+    public function cproDivision(Request $request){
+        $client_id=$request->client_id;
+        $param=['client_id'=>$client_id];
+        $service = new ServiceRequest();
+        $cproDivisionUrl=env('API_URL').'/api/cpro/division';
+        $cproDivisions = $service->get($cproDivisionUrl,$param);
+        return $cproDivisions;
+
     }
 
     public function list(Request $request)

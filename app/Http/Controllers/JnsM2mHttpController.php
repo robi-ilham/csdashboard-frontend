@@ -72,10 +72,10 @@ class JnsM2mHttpController extends Controller
         $validator = Validator::make($request->all(),[
             'username'=>'required|string',
             'password'=>'required|string',
-            'client_name'=>'required',
+           // 'client_name'=>'required',
             'client_id'=>'required',
             'division_id'=>'required',
-            'access_mod'=>'required',
+          //  'access_mod'=>'required',
             'api_key'=>'required',
             'expiry'=>'required'
         ]);

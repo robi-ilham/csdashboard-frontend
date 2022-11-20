@@ -11,10 +11,19 @@ class CproDivisionController extends Controller
     {
         $service = new ServiceRequest();
         $url=env('API_URL').'/api/cpro/division';
-        $response = $service->get($url);
+        $response = $service->get($url,$request);
        // return $response;
 
         return view('cpro.division.index',['data'=>$response]);
+    }
+
+    public function indexAjax(Request $request)
+    {
+        $service = new ServiceRequest();
+        $url=env('API_URL').'/api/cpro/division/index-api';
+        $response = $service->get($url,$request);
+        return $response['query-result']['data'];
+
     }
 
     /**

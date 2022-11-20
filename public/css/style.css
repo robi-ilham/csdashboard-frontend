@@ -14145,4 +14145,7 @@ html:not([dir=rtl]) .wrapper {
 .width-300{
   width: 300px;
 }
+.select2.select2-container{
+  width: 100% !important;
+}
 /*# sourceMappingURL=style.css.map */

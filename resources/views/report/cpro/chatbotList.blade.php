@@ -129,6 +129,10 @@
                                 <label class="form-label" for="division">type</label>
                                 <select name="type" class="form-control" id="type">
                                     <option value=""></option>
+                                    <option value="IN">IN</option>
+                                    <option value="OUT">OUT</option>
+
+
 
                                 </select>
                             </div>
